@@ -17,7 +17,7 @@ import java.util.UUID;
 @EqualsAndHashCode
 public class Event {
     private UUID eventId;
-    private Organizator eventOraganizator;
+    private Organizer eventOraganizator;
     private LocalDateTime eventDate;
     private String eventName;
     private Integer eventPlayerLimit;

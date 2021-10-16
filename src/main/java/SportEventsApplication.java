@@ -29,9 +29,9 @@ public class SportEventsApplication {
             @EventListener
             @Transactional
             public void setup(ApplicationReadyEvent event) {
-                Player player1 = new Player("Jhon","Doe", LocalDate.of(1990,01,20),"jd","jd@wp.pl","gorlickielwy");
-                Organizator organizator1 = new Organizator("David","Bovie", LocalDate.of(1995,01,20),"jd","jd@wp.pl","TEAMSPORT");
-                personRepository.saveAllAndFlush(List.of(player1));
+//                Player player1 = new Player("Jhon","Doe", LocalDate.of(1990,01,20),"jd","jd@wp.pl","gorlickielwy");
+//                Organizator organizator1 = new Organizator("David","Bovie", LocalDate.of(1995,01,20),"jd","jd@wp.pl","TEAMSPORT");
+//                personRepository.saveAllAndFlush(List.of(player1));
             }
         }
 }

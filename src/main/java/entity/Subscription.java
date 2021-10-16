@@ -14,14 +14,14 @@ import java.util.UUID;
 public class Subscription {
     @Id
     private UUID subscriptionId;
-    private Person subscriptionPerson;
+    private User subscriptionUser;
     private Boolean subscriptionPayment;
 
     public Subscription(@NonNull UUID subscriptionId,
-                        @NonNull Person subscriptionPerson,
+                        @NonNull User subscriptionUser,
                         @NonNull Boolean subscriptionPayment) {
         this.subscriptionId = UUID.randomUUID();
-        this.subscriptionPerson = subscriptionPerson;
+        this.subscriptionUser = subscriptionUser;
         this.subscriptionPayment = subscriptionPayment;
     }
 }

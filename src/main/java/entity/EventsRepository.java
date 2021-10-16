@@ -9,6 +9,6 @@ import java.util.UUID;
 public interface EventsRepository extends JpaRepository <Event, UUID> {
 
     List<Event> findByEventName (String eventName);
-    List<Event> findByOrganizator (Organizator organizator);
+    List<Event> findByOrganizator (Organizer organizer);
     List<Event> findByEventDate (LocalDateTime eventDate);
 }
