@@ -5,23 +5,28 @@ import lombok.*;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.time.LocalDateTime;
 import java.util.UUID;
+
 @Entity
 @Table(name = "subscriptions")
-@NoArgsConstructor(access = AccessLevel.PRIVATE) // for hibernate
+@NoArgsConstructor(access = AccessLevel.PROTECTED) // for hibernate
 @Getter
 @EqualsAndHashCode
 public class Subscription {
+
     @Id
     private UUID subscriptionId;
-    private User subscriptionUser;
     private Boolean subscriptionPayment;
+    private LocalDateTime dateOfPayment;
+    private Boolean approved;
 
-    public Subscription(@NonNull UUID subscriptionId,
-                        @NonNull User subscriptionUser,
-                        @NonNull Boolean subscriptionPayment) {
-        this.subscriptionId = UUID.randomUUID();
-        this.subscriptionUser = subscriptionUser;
+    public Subscription(UUID subscriptionId, Boolean subscriptionPayment,
+                        LocalDateTime dateOfPayment, Boolean approved) {
+        this.subscriptionId = subscriptionId;
         this.subscriptionPayment = subscriptionPayment;
+        this.dateOfPayment = dateOfPayment;
+        this.approved = approved;
     }
+
 }

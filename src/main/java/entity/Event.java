@@ -1,5 +1,6 @@
 package entity;
 
+import com.sun.istack.NotNull;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -7,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -16,13 +17,26 @@ import java.util.UUID;
 @Getter
 @EqualsAndHashCode
 public class Event {
+
+    @Id
     private UUID eventId;
-    private Organizer eventOraganizator;
-    private LocalDateTime eventDate;
+
     private String eventName;
-    private Integer eventPlayerLimit;
+    private LocalDateTime eventDate;
+    private Integer playerLimit;
     private double eventFee;
+
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "subscirption_id")
-    private LinkedHashSet<Subscription> subscriptions = new LinkedHashSet();
+    @JoinColumn(name = "event_id")
+    private List<Subscription> eventSubscriptions;
+
+    public Event(@NotNull String eventName,
+                 @NotNull LocalDateTime eventDate,
+                 @NotNull Integer playerLimit,
+                 @NotNull double eventFee) {
+        this.eventName = eventName;
+        this.eventDate = eventDate;
+        this.playerLimit = playerLimit;
+        this.eventFee = eventFee;
+    }
 }

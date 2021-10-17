@@ -4,9 +4,10 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
+
+import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -24,11 +25,15 @@ public class Player extends User {
     private String license;
 
 
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "player_id")
+    private List<Subscription> playerSubscriptions;
 
-    public Player(UUID userId, String login, String password, String email,
-                  UserType userType, String streetWithNumber, String city, String country,
-                  String zipCode, String firstName, String lastName, LocalDate dateOfBirth,
-                  String teamName, double weight, String additionalInfo, String license) {
+
+    public Player(UUID userId, String login, String password, String email, UserType userType,
+                  String streetWithNumber, String city, String country, String zipCode, String firstName,
+                  String lastName, LocalDate dateOfBirth, String teamName, double weight, String additionalInfo,
+                  String license, List<Subscription> subscriptionList) {
         super(userId, login, password, email, userType, streetWithNumber, city, country, zipCode);
         this.firstName = firstName;
         this.lastName = lastName;
@@ -37,5 +42,6 @@ public class Player extends User {
         this.weight = weight;
         this.additionalInfo = additionalInfo;
         this.license = license;
+        this.playerSubscriptions = playerSubscriptions;
     }
 }

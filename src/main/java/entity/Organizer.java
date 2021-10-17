@@ -4,9 +4,12 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+
+import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import java.time.LocalDate;
+import javax.persistence.OneToMany;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -16,6 +19,10 @@ import java.util.UUID;
 public class Organizer extends User {
 
     private String name;
+
+    @OneToMany(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "player_id")
+    private List<Event> eventList;
 
     public Organizer(UUID userId, String login, String password, String email,
                      UserType userType, String streetWithNumber, String city,
