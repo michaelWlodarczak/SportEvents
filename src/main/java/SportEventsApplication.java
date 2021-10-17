@@ -1,4 +1,5 @@
-import entity.*;
+import entity.repositories.EventsRepository;
+import entity.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -8,8 +9,6 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
-import java.time.LocalDate;
-import java.util.List;
 
 @SpringBootApplication
 public class SportEventsApplication {
@@ -23,7 +22,7 @@ public class SportEventsApplication {
         @Profile("dev")
         static class InitOnStartup {
 
-           private final PersonRepository personRepository;
+           private final UserRepository userRepository;
            private final EventsRepository eventsRepository;
 
             @EventListener

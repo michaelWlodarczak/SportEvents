@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,20 +24,23 @@ public class Event {
 
     private String eventName;
     private LocalDateTime eventDate;
-    private Integer playerLimit;
+    private int playerLimit;
     private double eventFee;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "event_id")
     private List<Subscription> eventSubscriptions;
 
-    public Event(@NotNull String eventName,
-                 @NotNull LocalDateTime eventDate,
-                 @NotNull Integer playerLimit,
-                 @NotNull double eventFee) {
+    public Event(String eventName,
+                 LocalDateTime eventDate,
+                 int playerLimit,
+                 double eventFee,
+                 List<Subscription> eventSubscriptions) {
+        this.eventId = UUID.randomUUID();
         this.eventName = eventName;
         this.eventDate = eventDate;
         this.playerLimit = playerLimit;
         this.eventFee = eventFee;
+        this.eventSubscriptions = new ArrayList<>();
     }
 }

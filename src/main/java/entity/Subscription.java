@@ -17,12 +17,12 @@ public class Subscription {
 
     @Id
     private UUID subscriptionId;
-    private Boolean subscriptionPayment;
+    private boolean subscriptionPayment;
     private LocalDateTime dateOfPayment;
-    private Boolean approved;
+    private boolean approved;
 
-    public Subscription(UUID subscriptionId, Boolean subscriptionPayment,
-                        LocalDateTime dateOfPayment, Boolean approved) {
+    public Subscription(UUID subscriptionId, boolean subscriptionPayment,
+                        LocalDateTime dateOfPayment, boolean approved) {
         this.subscriptionId = subscriptionId;
         this.subscriptionPayment = subscriptionPayment;
         this.dateOfPayment = dateOfPayment;

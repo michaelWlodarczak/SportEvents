@@ -10,6 +10,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Entity
@@ -24,10 +25,32 @@ public class Organizer extends User {
 //    @JoinColumn(name = "player_id")
     private List<Event> eventList;
 
-    public Organizer(UUID userId, String login, String password, String email,
-                     UserType userType, String streetWithNumber, String city,
-                     String country, String zipCode, String name) {
-        super(userId, login, password, email, userType, streetWithNumber, city, country, zipCode);
+
+    public Organizer(String login,
+                     String password,
+                     String email,
+                     String streetWithNumber,
+                     String city,
+                     String country,
+                     String zipCode,
+                     String name,
+                     List<Event> eventList) {
+        super(login, password, email, streetWithNumber, city, country, zipCode);
         this.name = name;
+        this.eventList = eventList;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Organizer)) return false;
+        Organizer organizer = (Organizer) o;
+        return Objects.equals(getName(),
+                organizer.getName()) && Objects.equals(getEventList(), organizer.getEventList());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getName(), getEventList());
     }
 }

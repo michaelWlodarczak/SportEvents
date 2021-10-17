@@ -1,5 +1,6 @@
 package entity;
 
+import com.sun.istack.NotNull;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,20 +31,17 @@ public abstract class User {
     private String country;
     private String zipCode;
 
-    public User(UUID userId,
-                String login,
-                String password,
-                String email,
-                UserType userType,
+    public User(@NotNull String login,
+                @NotNull String password,
+                @NotNull String email,
                 String streetWithNumber,
                 String city,
                 String country,
                 String zipCode) {
-        this.userId = userId;
+        this.userId = UUID.randomUUID();
         this.login = login;
         this.password = password;
         this.email = email;
-        this.userType = userType;
         this.streetWithNumber = streetWithNumber;
         this.city = city;
         this.country = country;
