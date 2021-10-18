@@ -11,11 +11,11 @@ import java.util.UUID;
 public interface UserRepository extends JpaRepository<User, UUID> {
 
 
-//    List<User> findByLastName (String lastName);
-//    List<User> fingByEmailAddress(String emailAddress);
-//
-//    List<Player> findByTeam(String teamName);
-//    List<Organizer> findByName(String organizatorName);
+    List<User> findByLastName (String lastName);
+    List<User> fingByEmailAddress(String emailAddress);
+
+    List<Player> findByTeam(String teamName);
+    List<Organizer> findByName(String organizatorName);
 
     //Create Player / Organizer
     //Delete Player / Organizer

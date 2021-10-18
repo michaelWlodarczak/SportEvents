@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Objects;
 import java.util.UUID;
 
 @Entity
@@ -18,33 +19,48 @@ public abstract class User {
     @Id
     private UUID userId;
 
-    private String login;
-    private String password;
-    private String email;
+    private String userLogin;
+    private String userPassword;
+    private String userEmail;
 
     @Column(name = "user_type", insertable = false, updatable = false)
     @Enumerated(EnumType.STRING)
     private UserType userType;
 
-    private String streetWithNumber;
-    private String city;
-    private String country;
-    private String zipCode;
+    private String userStreet;
+    private String userCity;
+    private String userCountry;
+    private String userZipCode;
 
-    public User(@NotNull String login,
-                @NotNull String password,
-                @NotNull String email,
-                String streetWithNumber,
-                String city,
-                String country,
-                String zipCode) {
+    public User(@NotNull String userLogin,
+                @NotNull String userPassword,
+                @NotNull String userEmail,
+                String userStreet,
+                String userCity,
+                String userCountry,
+                String userZipCode) {
         this.userId = UUID.randomUUID();
-        this.login = login;
-        this.password = password;
-        this.email = email;
-        this.streetWithNumber = streetWithNumber;
-        this.city = city;
-        this.country = country;
-        this.zipCode = zipCode;
+        this.userLogin = userLogin;
+        this.userPassword = userPassword;
+        this.userEmail = userEmail;
+        this.userStreet = userStreet;
+        this.userCity = userCity;
+        this.userCountry = userCountry;
+        this.userZipCode = userZipCode;
+    }
+
+    public abstract String getName();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+        return userId.equals(user.userId) && userEmail.equals(user.userEmail);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userId, userEmail);
     }
 }
