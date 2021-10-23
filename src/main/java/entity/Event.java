@@ -1,10 +1,6 @@
 package entity;
 
-import com.sun.istack.NotNull;
-import lombok.AccessLevel;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -21,26 +17,24 @@ public class Event {
 
     @Id
     private UUID eventId;
-
-    private String eventName;
+    private String eventTitle;
     private LocalDateTime eventDate;
-    private int playerLimit;
+    private int eventPlayerLimit;
     private double eventFee;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "event_id")
-    private List<Subscription> eventSubscriptions;
+//    @OneToMany(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "event_id")
+//    private List<Subscription> eventSubscriptions;
 
-    public Event(String eventName,
-                 LocalDateTime eventDate,
-                 int playerLimit,
-                 double eventFee,
-                 List<Subscription> eventSubscriptions) {
+    public Event(@NonNull String eventTitle,
+                 @NonNull LocalDateTime eventDate,
+                 @NonNull int eventPlayerLimit,
+                 @NonNull double eventFee) {
         this.eventId = UUID.randomUUID();
-        this.eventName = eventName;
+        this.eventTitle = eventTitle;
         this.eventDate = eventDate;
-        this.playerLimit = playerLimit;
+        this.eventPlayerLimit = eventPlayerLimit;
         this.eventFee = eventFee;
-        this.eventSubscriptions = new ArrayList<>();
+
     }
 }

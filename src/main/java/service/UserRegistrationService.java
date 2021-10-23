@@ -7,6 +7,8 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
+import service.dto.RegisterPlayerForm;
+import service.dto.RegisteredUserId;
 
 import javax.transaction.Transactional;
 import java.time.format.DateTimeFormatter;
@@ -24,7 +26,6 @@ public class UserRegistrationService {
             Player player = Player.createWith(form);
             return new RegisteredUserId(player.getUserId());
         }
-
 
 
 }

@@ -4,10 +4,12 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import service.dto.RegisterPlayerForm;
 
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -57,10 +59,12 @@ public class Player extends User {
         this.playerSubscriptions = new ArrayList<>();
     }
 
-    @Override
+
+    @Override  //TODO sprawdzic ta metode
     public String getName() {
         return playerFirstName + " " + playerLastName;
     }
+
 
     @Override
     public boolean equals(Object o) {
@@ -89,6 +93,21 @@ public class Player extends User {
                 getPlayerLicense(),
                 getPlayerSubscriptions());
     }
+
+
+    //TODO napisac metody
+//    public static Player createWith(RegisterPlayerForm form) {
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//        return new Player();
+//    }
+
+//    public void addSubscription(Subscription subscription){
+//
+//    }
+
+//    public List<Subscription> getApprovedSubscriptions() {
+//
+//    }
 
 
 }

@@ -10,6 +10,12 @@ public class RegisterOrganizerForm {
     String userPassword;
     @NonNull
     String userEmail;
+    String userStreet;
     String userCity;
+    String userCountry;
+    String userZipCode;
+    @NonNull
+    String organizerName;
+
 
 }

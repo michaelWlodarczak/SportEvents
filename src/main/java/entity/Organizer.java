@@ -3,15 +3,14 @@ package entity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import service.dto.RegisterOrganizerForm;
 
 
-import javax.persistence.CascadeType;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 
 @Entity
 @DiscriminatorValue("ORAGANIZER")
@@ -19,38 +18,70 @@ import java.util.UUID;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Organizer extends User {
 
-    private String name;
-
+    private String organizerName;
     @OneToMany(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "player_id")
-    private List<Event> eventList;
+    @JoinColumn(name = "organizer_id")
+    private List<Event> organizerEvents;
 
+    public Organizer(String userLogin,
+                     String userPassword,
+                     String userEmail,
+                     String userStreet,
+                     String userCity,
+                     String userCountry,
+                     String userZipCode,
+                     @NonNull String organizerName) {
+        super(userLogin, userPassword, userEmail, userStreet, userCity, userCountry, userZipCode);
+        this.organizerName = organizerName;
+        this.organizerEvents = new ArrayList<>();
+    }
 
-    public Organizer(String login,
-                     String password,
-                     String email,
-                     String streetWithNumber,
-                     String city,
-                     String country,
-                     String zipCode,
-                     String name,
-                     List<Event> eventList) {
-        super(login, password, email, streetWithNumber, city, country, zipCode);
-        this.name = name;
-        this.eventList = eventList;
+    @Override
+    public String getName() {
+        return organizerName;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Organizer)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
         Organizer organizer = (Organizer) o;
-        return Objects.equals(getName(),
-                organizer.getName()) && Objects.equals(getEventList(), organizer.getEventList());
+        return organizerName.equals(organizer.organizerName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getName(), getEventList());
+        return Objects.hash(super.hashCode(), organizerName);
     }
+
+    public static Organizer createWith(RegisterOrganizerForm form) {
+        return new Organizer(form.getUserLogin(),
+                form.getUserPassword(),
+                form.getUserStreet(),
+                form.getUserCity(),
+                form.getUserCountry(),
+                form.getUserZipCode(),
+                form.getOrganizerName());
+    }
+
+    public void addEvent(Event event) {
+        if (event != null) {
+            if (!organizerEvents.contains(event)){
+                organizerEvents.add(event);
+            }else {
+                throw new EventException("Event already exist for this Organizer");
+            }
+        }
+    }
+    public void removeEvent(Event event){
+        if (event != null){
+            if (organizerEvents.contains(event)){
+                organizerEvents.remove(event);
+            }else {
+                throw new EventException("Event do not exist for this Organizer");
+            }
+        }
+    }
+
 }
