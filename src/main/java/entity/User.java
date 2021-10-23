@@ -31,6 +31,7 @@ public abstract class User {
     private String userCity;
     private String userCountry;
     private String userZipCode;
+    private boolean userActive;
 
     public User(@NotNull String userLogin,
                 @NotNull String userPassword,
@@ -47,6 +48,7 @@ public abstract class User {
         this.userCity = userCity;
         this.userCountry = userCountry;
         this.userZipCode = userZipCode;
+        this.userActive = true;
     }
 
     public abstract String getName();
@@ -54,7 +56,7 @@ public abstract class User {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof User)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
         return userId.equals(user.userId) && userEmail.equals(user.userEmail);
     }
@@ -62,5 +64,9 @@ public abstract class User {
     @Override
     public int hashCode() {
         return Objects.hash(userId, userEmail);
+    }
+
+    public void setUserActive (boolean active){
+        this.userActive = active;
     }
 }

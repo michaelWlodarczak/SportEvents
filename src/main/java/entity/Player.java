@@ -27,6 +27,7 @@ public class Player extends User {
     private double playerWeight;
     private String playerAdditionalInfo;
     private String playerLicense;
+    private String playerPhone;
 
 
     @OneToMany(cascade = CascadeType.ALL)
@@ -47,7 +48,7 @@ public class Player extends User {
                   double playerWeight,
                   String playerAdditionalInfo,
                   String playerLicense,
-                  List<Subscription> playerSubscriptions) {
+                  @NonNull String playerPhone) {
         super(userLogin, userPassword, userEmail, userStreet, userCity, userCountry, userZipCode);
         this.playerFirstName = playerFirstName;
         this.playerLastName = playerLastName;
@@ -56,6 +57,7 @@ public class Player extends User {
         this.playerWeight = playerWeight;
         this.playerAdditionalInfo = playerAdditionalInfo;
         this.playerLicense = playerLicense;
+        this.playerPhone = playerPhone;
         this.playerSubscriptions = new ArrayList<>();
     }
 
@@ -65,49 +67,63 @@ public class Player extends User {
         return playerFirstName + " " + playerLastName;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Player)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
         Player player = (Player) o;
-        return Double.compare(player.getPlayerWeight(),
-                getPlayerWeight()) == 0 && Objects.equals(getPlayerFirstName(),
-                player.getPlayerFirstName()) && Objects.equals(getPlayerLastName(),
-                player.getPlayerLastName()) && Objects.equals(getPlayerDOB(),
-                player.getPlayerDOB()) && Objects.equals(getPlayerTeamName(),
-                player.getPlayerTeamName()) && Objects.equals(getPlayerAdditionalInfo(),
-                player.getPlayerAdditionalInfo()) && Objects.equals(getPlayerLicense(),
-                player.getPlayerLicense()) && Objects.equals(getPlayerSubscriptions(),
-                player.getPlayerSubscriptions());
+        return playerFirstName.equals(player.playerFirstName)
+                && playerLastName.equals(player.playerLastName)
+                && playerDOB.equals(player.playerDOB)
+                && playerPhone.equals(player.playerPhone);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getPlayerFirstName(),
-                getPlayerLastName(),
-                getPlayerDOB(),
-                getPlayerTeamName(),
-                getPlayerWeight(),
-                getPlayerAdditionalInfo(),
-                getPlayerLicense(),
-                getPlayerSubscriptions());
+        return Objects.hash(super.hashCode(), playerFirstName, playerLastName, playerDOB, playerPhone);
     }
 
 
-    //TODO napisac metody
-//    public static Player createWith(RegisterPlayerForm form) {
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-//        return new Player();
-//    }
 
-//    public void addSubscription(Subscription subscription){
-//
-//    }
+    public static Player createWith(RegisterPlayerForm form) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        return new Player(form.getUserLogin(),
+                form.getUserPassword(),
+                form.getUserEmail(),
+                form.getUserStreet(),
+                form.getUserCity(),
+                form.getUserCountry(),
+                form.getUserZipCode(),
+                form.getPlayerFirstName(),
+                form.getPlayerLastName(),
+                LocalDate.parse(form.getPlayerDOB(),formatter),
+                form.getPlayerTeamName(),
+                Double.valueOf(form.getPlayerWeight()),
+                form.getPlayerAdditionalInfo(),
+                form.getPlayerLicense(),
+                form.getPlayerPhone());
+    }
 
-//    public List<Subscription> getApprovedSubscriptions() {
-//
-//    }
+    public void addSubscription(Subscription subscription){
+
+    }
+
+    public void removeSubscription(Subscription subscription){
+
+    }
+
+    public List<Subscription> getApprovedSubscriptions() {
+
+    }
+
+    public PlayerView toView(){
+
+    }
+
+    public PlayerDetails toDetails(){
+
+    }
 
 
 }

@@ -2,31 +2,34 @@ package entity;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
 @Table(name = "subscriptions")
-@NoArgsConstructor(access = AccessLevel.PROTECTED) // for hibernate
+@NoArgsConstructor(access = AccessLevel.PROTECTED) //  PRIVATE ?? for hibernate
 @Getter
 @EqualsAndHashCode
 public class Subscription {
 
     @Id
     private UUID subscriptionId;
-    private boolean subscriptionPayment;
+    private boolean subscriptionPaymentDone;
     private LocalDateTime dateOfPayment;
-    private boolean approved;
+    private boolean subscriptionApproved;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "event_id")
+    private Event event;
 
-    public Subscription(UUID subscriptionId, boolean subscriptionPayment,
-                        LocalDateTime dateOfPayment, boolean approved) {
-        this.subscriptionId = subscriptionId;
-        this.subscriptionPayment = subscriptionPayment;
+    public Subscription(boolean subscriptionPaymentDone,
+                        LocalDateTime dateOfPayment,
+                        boolean subscriptionApproved,
+                        Event event) {
+        this.subscriptionId = UUID.randomUUID();
+        this.subscriptionPaymentDone = subscriptionPaymentDone;
         this.dateOfPayment = dateOfPayment;
-        this.approved = approved;
+        this.subscriptionApproved = subscriptionApproved;
+        this.event = event;
     }
-
 }
