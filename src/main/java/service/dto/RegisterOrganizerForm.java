@@ -1,7 +1,9 @@
 package service.dto;
 
 import lombok.NonNull;
+import lombok.Value;
 
+@Value
 public class RegisterOrganizerForm {
 
     @NonNull

@@ -7,25 +7,29 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
+import service.dto.RegisterOrganizerForm;
 import service.dto.RegisterPlayerForm;
 import service.dto.RegisteredUserId;
 
 import javax.transaction.Transactional;
 import java.time.format.DateTimeFormatter;
 
-@Service
-@Transactional
-@RequiredArgsConstructor
+@Service // TODO sprawdzic adnotacje
+@Transactional // TODO sprawdzic adnotacje
+@RequiredArgsConstructor // TODO sprawdzic adnotacje
 public class UserRegistrationService {
     @NonNull
     private final UserRepository userRepository;
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
         public RegisteredUserId registerPlayer(@NonNull RegisterPlayerForm form){
-            Player player = Player.createWith(form);
-            return new RegisteredUserId(player.getUserId());
+
         }
+
+        public RegisteredUserId registerOrganizer(@NonNull RegisterOrganizerForm form){
+
+        }
+
+
 
 
 }

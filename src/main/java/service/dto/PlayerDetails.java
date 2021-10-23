@@ -1,33 +1,31 @@
 package service.dto;
 
-import lombok.NonNull;
+import entity.Subscription;
+import entity.UserType;
 import lombok.Value;
 
-import java.time.LocalDate;
+import java.util.List;
+import java.util.UUID;
 
 @Value
-public class RegisterPlayerForm {
+public class PlayerDetails {
 
-    @NonNull
-    String userLogin;
-    @NonNull
-    String userPassword;
-    @NonNull
-    String userEmail;
+    UUID userId;
+    String name;
+    String email;
+    UserType userType;
+    List<Subscription> playerSubscriptions;
     String userStreet;
     String userCity;
     String userCountry;
     String userZipCode;
-    @NonNull
     String playerFirstName;
-    @NonNull
     String playerLastName;
-    @NonNull
     String playerDOB;
     String playerTeamName;
     String playerWeight;
     String playerAdditionalInfo;
     String playerLicense;
-    @NonNull
     String playerPhone;
+
 }

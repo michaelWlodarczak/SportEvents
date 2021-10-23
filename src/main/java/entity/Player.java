@@ -4,6 +4,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import service.dto.PlayerDetails;
+import service.dto.PlayerView;
 import service.dto.RegisterPlayerForm;
 
 
@@ -84,8 +86,6 @@ public class Player extends User {
         return Objects.hash(super.hashCode(), playerFirstName, playerLastName, playerDOB, playerPhone);
     }
 
-
-
     public static Player createWith(RegisterPlayerForm form) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         return new Player(form.getUserLogin(),
@@ -105,23 +105,45 @@ public class Player extends User {
                 form.getPlayerPhone());
     }
 
+    //TODO
     public void addSubscription(Subscription subscription){
 
     }
-
+    //TODO
     public void removeSubscription(Subscription subscription){
 
     }
 
+    //TODO
     public List<Subscription> getApprovedSubscriptions() {
 
     }
 
     public PlayerView toView(){
-
+        return new PlayerView(getUserId(),
+                getName(),
+                getUserEmail(),
+                getUserType());
     }
 
     public PlayerDetails toDetails(){
+        return new PlayerDetails(getUserId(),
+                getName(),
+                getUserEmail(),
+                getUserType(),
+                getPlayerSubscriptions(),
+                getUserStreet(),
+                getUserCity(),
+                getUserCountry(),
+                getUserZipCode(),
+                getPlayerFirstName(),
+                getPlayerLastName(),
+                getPlayerDOB().toString(),
+                getPlayerTeamName(),
+                String.valueOf(getPlayerWeight()),
+                getPlayerAdditionalInfo(),
+                getPlayerLicense(),
+                getPlayerPhone());
 
     }
 
