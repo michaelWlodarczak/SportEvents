@@ -1,6 +1,7 @@
 package entity;
 
 import lombok.*;
+import service.dto.SubscriptionView;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -18,7 +19,7 @@ public class Subscription {
     private boolean subscriptionPaymentDone;
     private LocalDateTime dateOfPayment;
     private boolean subscriptionApproved;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne()
     @JoinColumn(name = "event_id")
     private Event event;
 
@@ -32,4 +33,15 @@ public class Subscription {
         this.subscriptionApproved = subscriptionApproved;
         this.event = event;
     }
+
+    public SubscriptionView toView() {
+        return new SubscriptionView (subscriptionId.toString(),
+                Boolean.toString(subscriptionPaymentDone),
+                dateOfPayment.toString(),
+                Boolean.toString(subscriptionApproved),
+                event.getEventTitle(),
+                event.getEventDate().toString(),
+                event.getEventId().toString());
+    }
+
 }

@@ -15,6 +15,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Entity
 @DiscriminatorValue("PLAYER")
@@ -24,7 +25,7 @@ public class Player extends User {
 
     private String playerFirstName;
     private String playerLastName;
-    LocalDate playerDOB;
+    private LocalDate playerDOB;
     private String playerTeamName;
     private double playerWeight;
     private String playerAdditionalInfo;
@@ -105,18 +106,31 @@ public class Player extends User {
                 form.getPlayerPhone());
     }
 
-    //TODO
+    //TODO add SubscriptionException
     public void addSubscription(Subscription subscription){
-
+        if(subscription != null){
+            if(!playerSubscriptions.contains(subscription)){
+                playerSubscriptions.add(subscription);
+            }else {
+                throw new SubscriptionException("Subscription for this player already exists");
+            }
+        }
     }
-    //TODO
+    //TODO add SubscriptionException
     public void removeSubscription(Subscription subscription){
-
+        if(subscription != null){
+            if (playerSubscriptions.contains(subscription)){
+                playerSubscriptions.remove(subscription);
+            }else {
+                throw new SubscriptionException("Subscription for this Event does not exist for this Player");
+            }
+        }
     }
 
-    //TODO
-    public List<Subscription> getApprovedSubscriptions() {
 
+    public List<Subscription> getApprovedSubscriptions() {
+        return playerSubscriptions.stream().filter(subscription -> subscription.isSubscriptionApproved())
+                .collect(Collectors.toList());
     }
 
     public PlayerView toView(){

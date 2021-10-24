@@ -2,11 +2,12 @@ package service.dto;
 
 import entity.Subscription;
 import entity.UserType;
+import lombok.Getter;
 import lombok.Value;
 
 import java.util.List;
 import java.util.UUID;
-
+@Getter
 @Value
 public class PlayerDetails {
 
