@@ -85,5 +85,26 @@ public class Organizer extends User {
             }
         }
     }
+    //TODO dopisac widoki w service.dto
+//    public OrganizerView toOrganizerView(){
+//        return new OrganizerView(getUserId(),
+//                getName(),
+//                getUserEmail(),
+//                getUserType(),
+//                getOrganizerEvents().size(),
+//                isUserActive());
+//    }
+//    public OrganizerDetails viewDetail(){
+//        return new OrganizerDetails(getUserId(),
+//                getOrganizerName(),
+//                getUserEmail(),
+//                getUserType(),
+//                getUserCity(),
+//                getUserStreet(),
+//                getUserCountry(),
+//                getUserZipCode(),
+//                getOrganizerEvents().stream().map(Event::toView).collect(Collectors.toList())
+//        );
+//    }
 
 }

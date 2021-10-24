@@ -7,6 +7,7 @@ import lombok.NonNull;
 import service.dto.PlayerDetails;
 import service.dto.PlayerView;
 import service.dto.RegisterPlayerForm;
+import service.exception.SubscriptionException;
 
 
 import javax.persistence.*;
@@ -33,8 +34,7 @@ public class Player extends User {
     private String playerPhone;
 
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "player_id")
+    @OneToMany(cascade = CascadeType.ALL,mappedBy="player",orphanRemoval = true, fetch = FetchType.EAGER) // TODO sprawdzic to
     private List<Subscription> playerSubscriptions;
 
     public Player(String userLogin,
@@ -65,10 +65,11 @@ public class Player extends User {
     }
 
 
-    @Override  //TODO sprawdzic ta metode
+    @Override
     public String getName() {
         return playerFirstName + " " + playerLastName;
     }
+
 
     @Override
     public boolean equals(Object o) {
@@ -106,7 +107,6 @@ public class Player extends User {
                 form.getPlayerPhone());
     }
 
-    //TODO add SubscriptionException
     public void addSubscription(Subscription subscription){
         if(subscription != null){
             if(!playerSubscriptions.contains(subscription)){
@@ -116,7 +116,7 @@ public class Player extends User {
             }
         }
     }
-    //TODO add SubscriptionException
+
     public void removeSubscription(Subscription subscription){
         if(subscription != null){
             if (playerSubscriptions.contains(subscription)){
@@ -127,39 +127,38 @@ public class Player extends User {
         }
     }
 
-
     public List<Subscription> getApprovedSubscriptions() {
         return playerSubscriptions.stream().filter(subscription -> subscription.isSubscriptionApproved())
                 .collect(Collectors.toList());
     }
+//TODO zaczac od tego
+//    public PlayerView toView(){
+//        return new PlayerView(getUserId(),
+//                getName(),
+//                getUserEmail(),
+//                getUserType());
+//    }
 
-    public PlayerView toView(){
-        return new PlayerView(getUserId(),
-                getName(),
-                getUserEmail(),
-                getUserType());
-    }
-
-    public PlayerDetails toDetails(){
-        return new PlayerDetails(getUserId(),
-                getName(),
-                getUserEmail(),
-                getUserType(),
-                getPlayerSubscriptions(),
-                getUserStreet(),
-                getUserCity(),
-                getUserCountry(),
-                getUserZipCode(),
-                getPlayerFirstName(),
-                getPlayerLastName(),
-                getPlayerDOB().toString(),
-                getPlayerTeamName(),
-                String.valueOf(getPlayerWeight()),
-                getPlayerAdditionalInfo(),
-                getPlayerLicense(),
-                getPlayerPhone());
-
-    }
+    //TODO poprawic
+//    public PlayerDetails toDetails(){
+//        return new PlayerDetails(getUserId(),
+//                getName(),
+//                getUserEmail(),
+//                getUserType(),
+//                getPlayerSubscriptions(),
+//                getUserStreet(),
+//                getUserCity(),
+//                getUserCountry(),
+//                getUserZipCode(),
+//                getPlayerFirstName(),
+//                getPlayerLastName(),
+//                getPlayerDOB().toString(),
+//                getPlayerTeamName(),
+//                String.valueOf(getPlayerWeight()),
+//                getPlayerAdditionalInfo(),
+//                getPlayerLicense(),
+//                getPlayerPhone());
+//    }
 
 
 }
