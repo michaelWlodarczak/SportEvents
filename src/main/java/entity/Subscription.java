@@ -35,10 +35,10 @@ public class Subscription {
     }
 
     public SubscriptionView toView() {
-        return new SubscriptionView (subscriptionId.toString(),
-                Boolean.toString(subscriptionPaymentDone),
-                dateOfPayment.toString(),
-                Boolean.toString(subscriptionApproved),
+        return new SubscriptionView (subscriptionId,
+                subscriptionPaymentDone,
+                dateOfPayment,
+                subscriptionApproved,
                 event.getEventTitle(),
                 event.getEventDate().toString(),
                 event.getEventId().toString());

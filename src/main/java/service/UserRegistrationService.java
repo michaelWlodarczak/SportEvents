@@ -21,13 +21,13 @@ public class UserRegistrationService {
     @NonNull
     private final UserRepository userRepository;
 
-        public RegisteredUserId registerPlayer(@NonNull RegisterPlayerForm form){
-
-        }
-
-        public RegisteredUserId registerOrganizer(@NonNull RegisterOrganizerForm form){
-
-        }
+//        public RegisteredUserId registerPlayer(@NonNull RegisterPlayerForm form){
+//
+//        }
+//
+//        public RegisteredUserId registerOrganizer(@NonNull RegisterOrganizerForm form){
+//
+//        }
 
 
 

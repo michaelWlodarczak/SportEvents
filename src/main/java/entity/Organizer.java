@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import service.dto.RegisterOrganizerForm;
+import service.exception.EventException;
 
 
 import javax.persistence.*;
