@@ -9,10 +9,7 @@ import java.util.UUID;
 @Value
 public class RemoveSubscriptionForm {
 
-
-    //TODO zapytac o co chodzi ...
     UUID userId;
     Event event;
-
 
 }

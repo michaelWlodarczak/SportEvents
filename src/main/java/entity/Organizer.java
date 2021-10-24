@@ -59,6 +59,7 @@ public class Organizer extends User {
     public static Organizer createWith(RegisterOrganizerForm form) {
         return new Organizer(form.getUserLogin(),
                 form.getUserPassword(),
+                form.getUserEmail(),
                 form.getUserStreet(),
                 form.getUserCity(),
                 form.getUserCountry(),
