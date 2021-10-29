@@ -3,6 +3,7 @@ package service;
 import entity.Event;
 import entity.Organizer;
 import entity.enums.UserType;
+import entity.repositories.EventsRepository;
 import entity.repositories.UserRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -10,10 +11,12 @@ import org.springframework.stereotype.Service;
 import service.dto.AddEventForm;
 import service.dto.RegisteredEventId;
 import service.dto.RemoveEventForm;
+import service.exception.EventException;
 import service.exception.SubscriptionException;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 
 @Service
@@ -21,30 +24,38 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class OrganizerEventService {
     @NonNull
-    private final UserRepository userRepository;
+    private UserRepository userRepository;
+    @NonNull
+    private EventsRepository eventsRepository;
 
     public RegisteredEventId addEvent(@NonNull AddEventForm form) {
-        if (userRepository.getById(form.getUserId()) == null) {
-            throw new SubscriptionException("");
-        }
         if (!(userRepository.getById(form.getUserId()).getUserType().equals(UserType.ORGANIZER))) {
             throw new SubscriptionException("The user is not an Organizer");
         }
         Organizer organizer = userRepository.getOrganizerByUserId(form.getUserId());
         Event event = new Event(
                 form.getEventTitle(),
-                LocalDateTime.now(),
-                form.getEventPlayerLimit(),
-                form.getEventFee());
+                LocalDateTime.parse(form.getEventDate()),
+                Integer.valueOf(form.getEventPlayerLimit()),
+                Double.valueOf(form.getEventFee()),
+        organizer);
         organizer.addEvent(event);
         userRepository.save(organizer);
         return new RegisteredEventId(organizer.getUserId(), event.getEventId());
     }
 
-    public void removeEvent(@NonNull RemoveEventForm form) {
+    public UUID removeEvent(@NonNull RemoveEventForm form) {
+        if(eventsRepository.findEventSubscriptions(eventsRepository.getById(form.getEventId())).size()>0){
+            throw new EventException("There are subscriptions for this event. Cannot remove!");
+        }
         Organizer organizer = userRepository.getOrganizerByUserId(form.getUserId());
-        organizer.removeEvent(form.getEvent());
+        Event removedEvent = eventsRepository.getById(form.getEventId());
+        UUID removedEventId = removedEvent.getEventId();
+        organizer.removeEvent(removedEvent);
         userRepository.save(organizer);
+        return removedEventId;
     }
+
+
 
 }

@@ -52,7 +52,7 @@ public class Event {
     }
 
 
-    //TODO dopisac widoki w service.dto
+
 //    public EventView toView(){
 //        return new EventView(eventId,
 //                eventTitle,

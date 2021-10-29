@@ -13,7 +13,7 @@ public class DateValidator {
 
         try {
             LocalDateTime.parse(date, DateTimeFormatter.ofPattern("uuuu-M-d")
-                    .withResolverStyle(ResolverStyle.STRICT));
+                    .withResolverStyle(ResolverStyle.STRICT)); // ResolverStyle.STRICT for 30, 31 days checking, and also leap year.
 
             valid = true;
 
