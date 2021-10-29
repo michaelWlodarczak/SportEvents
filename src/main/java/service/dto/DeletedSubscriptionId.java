@@ -6,10 +6,9 @@ import lombok.Value;
 import java.util.UUID;
 
 @Value
-public class RegisteredEvent {
+public class DeletedSubscriptionId {
 
     @NonNull
     UUID userId;
-    UUID eventId;
-
+    UUID subscriptionId;
 }

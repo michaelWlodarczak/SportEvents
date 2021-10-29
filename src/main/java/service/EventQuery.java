@@ -5,6 +5,8 @@ import entity.repositories.EventsRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import service.dto.EventDetails;
+import service.dto.EventView;
 
 import java.util.List;
 import java.util.UUID;
@@ -17,30 +19,16 @@ public class EventQuery {
     @NonNull
     private final EventsRepository eventsRepository;
 
-//    public List<CustomerView> listCustomers() {
-//        return repository.findAll().stream()
-//                .map(customer -> new CustomerView(customer.getId(),
-//                        customer.getName(),
-//                        customer.getEmail(),
-//                        customer.getCustomerType()))
-//                .collect(Collectors.toList()); //Collector mozna zaimportowac statycznie
-//
-//    }
+    public List<EventView> eventList(){
+        List<EventView> collect = eventsRepository.findAll().stream()
+                .map(Event::toView)
+                .collect(Collectors.toList());
+        return collect;
+    }
+    public EventDetails getEventDetails(UUID eventId){
+        return eventsRepository.getById(eventId).viewDetail();
+    }
 
-    //TODO
-//    public List<EventView> listEvent(){
-//
-//    }
 
-//    public CustomerDetails getById(UUID customerId) {
-//        return repository.findById(customerId)
-//                .orElseThrow(() -> new CustomerNotExistsException("customer not found: " + customerId))
-//                .mapToDetails();
-//    }
-
-    //TODO
-//    public EventDetails getEventDetails(){
-//
-//    }
 
 }

@@ -2,14 +2,13 @@ package service;
 
 import entity.Player;
 import entity.Subscription;
-import entity.UserType;
+import entity.enums.UserType;
 import entity.repositories.UserRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import service.dto.AddSubscriptionForm;
-import service.dto.RegisteredSubscription;
-import service.dto.RemoveSubscriptionForm;
+import service.dto.RegisteredSubscriptionId;
 import service.exception.SubscriptionException;
 
 import javax.transaction.Transactional;
@@ -23,7 +22,7 @@ public class PlayerSubscriptionService {
     @NonNull
     private final UserRepository userRepository;
 
-    public RegisteredSubscription addSubscription(@NonNull AddSubscriptionForm form){
+    public RegisteredSubscriptionId addSubscription(@NonNull AddSubscriptionForm form){
         if (userRepository.getById(form.getUserId()) == null) {
             throw new SubscriptionException("");
         }
@@ -38,7 +37,7 @@ public class PlayerSubscriptionService {
                 form.getEvent());
         player.addSubscription(subscription);
         userRepository.save(player);
-        return new RegisteredSubscription(player.getUserId(),subscription.getSubscriptionId());
+        return new RegisteredSubscriptionId(player.getUserId(),subscription.getSubscriptionId());
     }
 
     //TODO dokonczyc tą metode

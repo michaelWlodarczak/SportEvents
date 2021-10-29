@@ -26,9 +26,13 @@ public class Event {
     @OneToMany(cascade = CascadeType.ALL, mappedBy="event",orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Subscription> eventSubscriptions;
 
+    @OneToMany
+    @JoinColumn(name = "events_id",nullable = false)
+    private Organizer organizer;
+
     public Event(@NonNull String eventTitle,
                  @NonNull LocalDateTime eventDate,
-                 @NonNull int eventPlayerLimit,  // TODO int czy Integer ?
+                 @NonNull Integer eventPlayerLimit,
                  @NonNull double eventFee) {
         this.eventId = UUID.randomUUID();
         this.eventTitle = eventTitle;
@@ -46,6 +50,7 @@ public class Event {
             }
         }
     }
+
 
     //TODO dopisac widoki w service.dto
 //    public EventView toView(){

@@ -1,7 +1,7 @@
 package service.dto;
 
 import entity.Subscription;
-import entity.UserType;
+import entity.enums.UserType;
 import lombok.Getter;
 import lombok.Value;
 
@@ -14,12 +14,12 @@ public class PlayerDetails {
     UUID userId;
     String name;
     String email;
-    UserType userType;
-    List<Subscription> playerSubscriptions;
+    UserType type;
     String userStreet;
     String userCity;
     String userCountry;
     String userZipCode;
+    List<Subscription> playerSubscriptions;
     String playerFirstName;
     String playerLastName;
     String playerDOB;

@@ -2,13 +2,13 @@ package service;
 
 import entity.Event;
 import entity.Organizer;
-import entity.UserType;
+import entity.enums.UserType;
 import entity.repositories.UserRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import service.dto.AddEventForm;
-import service.dto.RegisteredEvent;
+import service.dto.RegisteredEventId;
 import service.dto.RemoveEventForm;
 import service.exception.SubscriptionException;
 
@@ -23,7 +23,7 @@ public class OrganizerEventService {
     @NonNull
     private final UserRepository userRepository;
 
-    public RegisteredEvent addEvent(@NonNull AddEventForm form) {
+    public RegisteredEventId addEvent(@NonNull AddEventForm form) {
         if (userRepository.getById(form.getUserId()) == null) {
             throw new SubscriptionException("");
         }
@@ -38,7 +38,7 @@ public class OrganizerEventService {
                 form.getEventFee());
         organizer.addEvent(event);
         userRepository.save(organizer);
-        return new RegisteredEvent(organizer.getUserId(), event.getEventId());
+        return new RegisteredEventId(organizer.getUserId(), event.getEventId());
     }
 
     public void removeEvent(@NonNull RemoveEventForm form) {

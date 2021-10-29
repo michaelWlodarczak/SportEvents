@@ -1,6 +1,7 @@
 package entity;
 
 import com.sun.istack.NotNull;
+import entity.enums.UserType;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

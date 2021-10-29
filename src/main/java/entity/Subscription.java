@@ -1,6 +1,7 @@
 package entity;
 
 import lombok.*;
+import service.dto.SubscriptionEventView;
 import service.dto.SubscriptionView;
 
 import javax.persistence.*;
@@ -35,13 +36,23 @@ public class Subscription {
     }
 
     public SubscriptionView toView() {
-        return new SubscriptionView (subscriptionId,
-                subscriptionPaymentDone,
-                dateOfPayment,
-                subscriptionApproved,
+        return new SubscriptionView (subscriptionId.toString(),
+                Boolean.toString(subscriptionPaymentDone),
+                dateOfPayment.toString(),
+                Boolean.toString(subscriptionApproved),
                 event.getEventTitle(),
                 event.getEventDate().toString(),
                 event.getEventId().toString());
     }
-
+    //TODO getPlayer()
+//    public SubscriptionEventView toEventView(){
+//        return new SubscriptionEventView(subscriptionId.toString(),
+//                Boolean.toString(subscriptionPaymentDone),
+//                dateOfPayment.toString(),
+//                Boolean.toString(subscriptionApproved),
+//                event.getEventTitle(),
+//                event.getEventDate().toString(),
+//                getPlayer().getUserId().toString(),
+//                getPlayer().getUserId());
+//    }
 }

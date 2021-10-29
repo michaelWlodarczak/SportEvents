@@ -6,11 +6,12 @@ import lombok.Value;
 import java.util.UUID;
 
 @Value
-public class PlayerView {
+public class OrganizerView {
+
     UUID userId;
     String name;
     String email;
     UserType type;
-    int subscriptionCount;
+    int eventsCount;
     boolean active;
 }

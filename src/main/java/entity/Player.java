@@ -131,7 +131,7 @@ public class Player extends User {
         return playerSubscriptions.stream().filter(subscription -> subscription.isSubscriptionApproved())
                 .collect(Collectors.toList());
     }
-//TODO zaczac od tego
+    //TODO zaczac od tego
 //    public PlayerView toView(){
 //        return new PlayerView(getUserId(),
 //                getName(),

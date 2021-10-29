@@ -1,6 +1,7 @@
 package entity.repositories;
 
 import entity.*;
+import entity.enums.UserType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -16,7 +17,10 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     List<User> findByUserLogin(String userLogin);
     List<Player> findByPlayerTeamName(String playerTeamName);
     List<Organizer> findByOrganizerName(String organizerName);
-    List<Player> findByUserType (UserType userType);
+    @Query("from User u where u.userType = entity.enums.UserType.PLAYER") //TODO potwierdzic sciezke
+    List<Player> getAllPlayers ();
+    @Query("from User u where u.userType = entity.enums.UserType.ORGANIZER")
+    List<Organizer> getAllOrganizers ();
     Player findPlayerByUserId(UUID userId);
     @Query("select (count(u) > 0) from User u where upper(u.userEmail) = upper(?1)")
     boolean emailExists(String email);
