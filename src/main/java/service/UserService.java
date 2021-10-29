@@ -19,7 +19,7 @@ import java.time.format.DateTimeFormatter;
 @Service // TODO sprawdzic adnotacje
 @Transactional // TODO sprawdzic adnotacje
 @RequiredArgsConstructor // TODO sprawdzic adnotacje
-public class UserRegistrationService {
+public class UserService {
     @NonNull
     private final UserRepository userRepository;
 
@@ -32,7 +32,12 @@ public class UserRegistrationService {
             return new RegisteredUserId(player.getUserId());
         }
 
-        public RegisteredUserId registerOrganizer(@NonNull RegisterOrganizerForm form){
+        //TODO
+//        public RegisteredUserId updatePlayer(){
+//
+//        }
+
+        public RegisteredUserId registerOrganizer(@NonNull RegisterOrganizerForm form) throws EmailAlreadyExistException{
             if (userRepository.emailExists(form.getUserEmail())){
                 throw new EmailAlreadyExistException("Account with email exists: " + form.getUserEmail());
             }
@@ -40,4 +45,8 @@ public class UserRegistrationService {
             userRepository.save(organizer);
             return new RegisteredUserId(organizer.getUserId());
         }
+        //TODO
+//        public RegisteredUserId updateOrganizer(){
+//
+//        }
 }

@@ -28,7 +28,4 @@ public class EventQuery {
     public EventDetails getEventDetails(UUID eventId){
         return eventsRepository.getById(eventId).viewDetail();
     }
-
-
-
 }

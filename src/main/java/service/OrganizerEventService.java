@@ -35,7 +35,7 @@ public class OrganizerEventService {
         Organizer organizer = userRepository.getOrganizerByUserId(form.getUserId());
         Event event = new Event(
                 form.getEventTitle(),
-                LocalDateTime.parse(form.getEventDate()),
+                LocalDateTime.parse(form.getEventDate()), //TODO
                 Integer.valueOf(form.getEventPlayerLimit()),
                 Double.valueOf(form.getEventFee()),
         organizer);

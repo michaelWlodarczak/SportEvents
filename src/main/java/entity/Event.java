@@ -1,6 +1,8 @@
 package entity;
 
 import lombok.*;
+import service.dto.EventDetails;
+import service.dto.EventView;
 import service.exception.SubscriptionException;
 
 import javax.persistence.*;
@@ -8,11 +10,13 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "events")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@Setter
 @EqualsAndHashCode
 public class Event {
 
@@ -26,19 +30,32 @@ public class Event {
     @OneToMany(cascade = CascadeType.ALL, mappedBy="event",orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Subscription> eventSubscriptions;
 
-    @OneToMany
+    @ManyToOne()
     @JoinColumn(name = "events_id",nullable = false)
     private Organizer organizer;
 
     public Event(@NonNull String eventTitle,
                  @NonNull LocalDateTime eventDate,
                  @NonNull Integer eventPlayerLimit,
-                 @NonNull double eventFee) {
+                 @NonNull double eventFee,
+                 @NonNull Organizer organizer) {
         this.eventId = UUID.randomUUID();
         this.eventTitle = eventTitle;
         this.eventDate = eventDate;
         this.eventPlayerLimit = eventPlayerLimit;
         this.eventFee = eventFee;
+        this.organizer = organizer;
+        this.eventSubscriptions = new ArrayList<>();
+    }
+
+    public void addSubscription(Subscription subscription){
+        if (subscription != null){
+            if (!eventSubscriptions.contains(subscription)){
+                eventSubscriptions.add(subscription);
+            }else {
+                throw new SubscriptionException("Subscription for this event in on the list of this Player");
+            }
+        }
     }
 
     public void removeSubscription(Subscription subscription){
@@ -51,25 +68,23 @@ public class Event {
         }
     }
 
+    public EventView toView(){
+        return new EventView(eventId,
+                eventTitle,
+                eventDate,
+                eventPlayerLimit,
+                eventFee,
+                eventSubscriptions.size());
+    }
 
 
-//    public EventView toView(){
-//        return new EventView(eventId,
-//                eventTitle,
-//                eventDate,
-//                eventPlayerLimit,
-//                eventFee,
-//                eventSubscriptions.size());
-//    }
-
-    //TODO
-//    public EventDetails viewDetail(){
-//        return new EventDetails(getEventId(),
-//                getEventTitle(),
-//                getEventDate(),
-//                getEventPlayerLimit(),
-//                getEventFee(),
-//                getEventSubscriptions().stream().map(Subscription::toEventView).collect(Collectors.toList()));
-//
-//    }
+    public EventDetails viewDetail(){
+        return new EventDetails(getEventId(),
+                getOrganizer().getUserId(),
+                getEventTitle(),
+                getEventDate(),
+                getEventPlayerLimit(),
+                getEventFee(),
+                getEventSubscriptions().stream().map(Subscription::toEventView).collect(Collectors.toList()));
+    }
 }

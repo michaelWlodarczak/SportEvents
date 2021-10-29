@@ -1,11 +1,13 @@
 package service;
 
+import entity.User;
 import entity.repositories.UserRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -15,4 +17,15 @@ public class UserMaintenanceService {
     @NonNull
     private final UserRepository userRepository;
 
+    public void deactivateUser(UUID userId){
+        User user = userRepository.getById(userId);
+        user.setUserActive(false);
+        userRepository.save(user);
+    }
+
+    public void activateUser(UUID userId){
+        User user = userRepository.getById(userId);
+        user.setUserActive(true);
+        userRepository.save(user);
+    }
 }

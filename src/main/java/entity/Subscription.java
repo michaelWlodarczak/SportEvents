@@ -12,6 +12,7 @@ import java.util.UUID;
 @Table(name = "subscriptions")
 @NoArgsConstructor(access = AccessLevel.PROTECTED) //  PRIVATE ?? for hibernate
 @Getter
+@Setter
 @EqualsAndHashCode
 public class Subscription {
 
@@ -20,19 +21,23 @@ public class Subscription {
     private boolean subscriptionPaymentDone;
     private LocalDateTime dateOfPayment;
     private boolean subscriptionApproved;
-    @OneToOne()
-    @JoinColumn(name = "event_id")
+    @ManyToOne()
+    @JoinColumn(name = "player_id",nullable = false)
+    Player player;
+    @ManyToOne()
+    @JoinColumn(name = "events_id",nullable = false)
     private Event event;
 
-    public Subscription(boolean subscriptionPaymentDone,
+    public Subscription(Boolean subscriptionPaymentDone,
                         LocalDateTime dateOfPayment,
-                        boolean subscriptionApproved,
-                        Event event) {
+                        Boolean subscriptionApproved,
+                        Event event, Player player) {
         this.subscriptionId = UUID.randomUUID();
         this.subscriptionPaymentDone = subscriptionPaymentDone;
         this.dateOfPayment = dateOfPayment;
         this.subscriptionApproved = subscriptionApproved;
         this.event = event;
+        this.player = player;
     }
 
     public SubscriptionView toView() {
@@ -44,15 +49,16 @@ public class Subscription {
                 event.getEventDate().toString(),
                 event.getEventId().toString());
     }
-    //TODO getPlayer()
-//    public SubscriptionEventView toEventView(){
-//        return new SubscriptionEventView(subscriptionId.toString(),
-//                Boolean.toString(subscriptionPaymentDone),
-//                dateOfPayment.toString(),
-//                Boolean.toString(subscriptionApproved),
-//                event.getEventTitle(),
-//                event.getEventDate().toString(),
-//                getPlayer().getUserId().toString(),
-//                getPlayer().getUserId());
-//    }
+
+
+    public SubscriptionEventView toEventView(){
+        return new SubscriptionEventView(subscriptionId.toString(),
+                Boolean.toString(subscriptionPaymentDone),
+                dateOfPayment.toString(),
+                Boolean.toString(subscriptionApproved),
+                event.getEventTitle(),
+                event.getEventDate().toString(),
+                getPlayer().getUserId().toString(),
+                getPlayer().getUserEmail());
+    }
 }
