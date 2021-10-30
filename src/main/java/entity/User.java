@@ -5,6 +5,7 @@ import entity.enums.UserType;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -16,18 +17,16 @@ import java.util.UUID;
 @DiscriminatorColumn(name = "user_type")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@Setter
 public abstract class User {
     @Id
     private UUID userId;
-
-    private String userLogin;
-    private String userPassword;
-    private String userEmail;
-
     @Column(name = "user_type", insertable = false, updatable = false)
     @Enumerated(EnumType.STRING)
     private UserType userType;
-
+    private String userLogin;
+    private String userPassword;
+    private String userEmail;
     private String userStreet;
     private String userCity;
     private String userCountry;

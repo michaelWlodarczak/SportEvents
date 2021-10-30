@@ -15,6 +15,7 @@ import service.exception.EmailAlreadyExistException;
 
 import javax.transaction.Transactional;
 import java.time.format.DateTimeFormatter;
+import java.util.UUID;
 
 @Service // TODO sprawdzic adnotacje
 @Transactional // TODO sprawdzic adnotacje
@@ -32,10 +33,13 @@ public class UserService {
             return new RegisteredUserId(player.getUserId());
         }
 
-        //TODO
-//        public RegisteredUserId updatePlayer(){
-//
-//        }
+
+        public RegisteredUserId updatePlayer(@NonNull RegisterPlayerForm form, UUID userId){
+            Player player = userRepository.getPlayerByUserId(userId);
+            Player.updatePlayer(form, player); //TODO
+            userRepository.save(player);
+            return new RegisteredUserId(player.getUserId());
+        }
 
         public RegisteredUserId registerOrganizer(@NonNull RegisterOrganizerForm form) throws EmailAlreadyExistException{
             if (userRepository.emailExists(form.getUserEmail())){
@@ -45,8 +49,11 @@ public class UserService {
             userRepository.save(organizer);
             return new RegisteredUserId(organizer.getUserId());
         }
-        //TODO
-//        public RegisteredUserId updateOrganizer(){
-//
-//        }
+
+        public RegisteredUserId updateOrganizer(@NonNull RegisterOrganizerForm form, UUID userId){
+            Organizer organizer = userRepository.getOrganizerByUserId(userId);
+            Organizer.updatOrganizer(form, organizer); //TODO
+            userRepository.save(organizer);
+            return new RegisteredUserId(organizer.getUserId());
+        }
 }

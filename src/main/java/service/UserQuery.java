@@ -25,13 +25,13 @@ public class UserQuery {
 
     public List<PlayerView> listPlayers (){
         List<PlayerView> collect = userRepository.getAllPlayers().stream()
-                .map(Player::toPlayerView) //TODO
+                .map(Player::toPlayerView)
                 .collect(Collectors.toList());
         return collect;
     }
 
     public PlayerDetails getPlayerDetails(UUID userId){
-        return userRepository.findPlayerByUserId(userId).viewDetail();  //TODO
+        return userRepository.findPlayerByUserId(userId).viewDetail();
     }
 
     public List<OrganizerView> listOrganizers(){

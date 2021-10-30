@@ -1,9 +1,6 @@
 package entity;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import lombok.*;
 import service.dto.PlayerDetails;
 import service.dto.PlayerView;
 import service.dto.RegisterPlayerForm;
@@ -21,6 +18,7 @@ import java.util.stream.Collectors;
 @Entity
 @DiscriminatorValue("PLAYER")
 @Getter
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Player extends User {
 
@@ -32,7 +30,6 @@ public class Player extends User {
     private String playerAdditionalInfo;
     private String playerLicense;
     private String playerPhone;
-
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy="player",orphanRemoval = true, fetch = FetchType.EAGER) // TODO sprawdzic to
     private List<Subscription> playerSubscriptions;
@@ -107,58 +104,85 @@ public class Player extends User {
                 form.getPlayerPhone());
     }
 
+    public static Player updatePlayer(RegisterPlayerForm form, Player player){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        player.setUserPassword(form.getUserPassword());
+
+        player.setUserEmail(form.getUserEmail());
+        player.setUserStreet(form.getUserStreet());
+        player.setUserCity(form.getUserCity());
+        player.setUserCountry(form.getUserCountry());
+        player.setUserZipCode(form.getUserZipCode());
+        player.setPlayerFirstName(form.getPlayerFirstName());
+        player.setPlayerLastName(form.getPlayerLastName());
+        player.setPlayerDOB(LocalDate.parse(form.getPlayerDOB(),formatter));
+        player.setPlayerTeamName(form.getPlayerTeamName());
+        player.setPlayerWeight(Double.parseDouble(form.getPlayerWeight()));
+        player.setPlayerAdditionalInfo(form.getPlayerAdditionalInfo());
+        player.setPlayerLicense(form.getPlayerLicense());
+        player.setPlayerPhone(form.getPlayerPhone());
+        return player;
+    }
+
     public void addSubscription(Subscription subscription){
         if(subscription != null){
             if(!playerSubscriptions.contains(subscription)){
                 playerSubscriptions.add(subscription);
             }else {
-                throw new SubscriptionException("Subscription for this player already exists");
+                throw new SubscriptionException("Subscription for this event already exist for this Player");
             }
         }
     }
 
-    public void removeSubscription(Subscription subscription){
-        if(subscription != null){
-            if (playerSubscriptions.contains(subscription)){
+    public void removeSubscription(Event event){
+        if (event != null){
+            Subscription subscription = playerSubscriptions.stream()
+                    .filter(subEvent -> event.equals(subEvent.getEvent()))
+                    .findFirst().orElse(null);
+            if(playerSubscriptions.contains(subscription)){
                 playerSubscriptions.remove(subscription);
             }else {
-                throw new SubscriptionException("Subscription for this Event does not exist for this Player");
+                throw new SubscriptionException("Subscription for this event not exist for this Player");
             }
         }
     }
 
     public List<Subscription> getApprovedSubscriptions() {
-        return playerSubscriptions.stream().filter(subscription -> subscription.isSubscriptionApproved())
+        return playerSubscriptions.stream().
+                filter(subEvent -> subEvent.isSubscriptionApproved())
                 .collect(Collectors.toList());
     }
-    //TODO zaczac od tego
-//    public PlayerView toView(){
-//        return new PlayerView(getUserId(),
-//                getName(),
-//                getUserEmail(),
-//                getUserType());
-//    }
 
-    //TODO poprawic
-//    public PlayerDetails toDetails(){
-//        return new PlayerDetails(getUserId(),
-//                getName(),
-//                getUserEmail(),
-//                getUserType(),
-//                getPlayerSubscriptions(),
-//                getUserStreet(),
-//                getUserCity(),
-//                getUserCountry(),
-//                getUserZipCode(),
-//                getPlayerFirstName(),
-//                getPlayerLastName(),
-//                getPlayerDOB().toString(),
-//                getPlayerTeamName(),
-//                String.valueOf(getPlayerWeight()),
-//                getPlayerAdditionalInfo(),
-//                getPlayerLicense(),
-//                getPlayerPhone());
-//    }
+    public PlayerView toPlayerView(){
+        return new PlayerView(getUserId(),
+                getName(),
+                getUserEmail(),
+                getUserType(),
+                getPlayerSubscriptions().size(),
+                isUserActive());
+    }
+
+
+    public PlayerDetails viewDetail(){
+        return new PlayerDetails(getUserId(),
+                getName(),
+                getUserEmail(),
+                getUserType(),
+                getPlayerSubscriptions(),
+                getUserStreet(),
+                getUserCity(),
+                getUserCountry(),
+                getUserZipCode(),
+                getPlayerSubscriptions().stream().map(Subscription::toView).collect(Collectors.toList()),
+                getPlayerFirstName(),
+                getPlayerLastName(),
+                getPlayerDOB().toString(),
+                getPlayerTeamName(),
+                String.valueOf(getPlayerWeight()),
+                getPlayerAdditionalInfo(),
+                getPlayerLicense(),
+                getPlayerPhone());
+    }
 
 
 }
