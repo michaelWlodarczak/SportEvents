@@ -8,10 +8,7 @@ import entity.repositories.UserRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import service.dto.AddEventForm;
-import service.dto.RegisterEventForm;
-import service.dto.RegisteredEventId;
-import service.dto.RemoveEventForm;
+import service.dto.*;
 import service.exception.EventException;
 import service.exception.SubscriptionException;
 
@@ -66,6 +63,39 @@ public class OrganizerEventService {
         //TODO Extend Date Validation Class
         String formDate = form.getEventDate();
         String formPlayerLimit = form.getEventPlayerLimit();
-        String formEventFee = form.getEventFee(); //TODO - continue
+        String formEventFee = form.getEventFee();
+        if(form.getEventDate().equals("")){
+            throw new EventException("Event must have Title!");
+        }
+        if (eventsRepository.findByEventTitle(form.getEventTitle()).size()>0){
+            throw new EventException("Event with this title already exists");
+        }
+        if (formDate.equals("")){
+            formDate = LocalDateTime.now().toString();
+        }
+        if(Integer.parseInt(formPlayerLimit)>0){
+            formPlayerLimit = String.valueOf(0);
+        }
+        if (Double.parseDouble(formEventFee)>0){
+            formEventFee = String.valueOf(0.0d);
+        }
+        RegisterEventForm userAddedForm = new RegisterEventForm(
+                userId,
+                form.getEventTitle(),
+                formDate,
+                formPlayerLimit,
+                formEventFee);
+        return addEvent(userAddedForm);
+    }
+
+    public DeletedEventId removeEventRest(@NonNull RemoveEventForm form,UUID userId){
+        RemoveEventForm subForm = new RemoveEventForm(
+                userId,form.getEventId()
+        );
+        UUID removedEvent = removeEvent(subForm);
+        if (removedEvent == null){
+            throw new EventException("Event removing problems!");
+        }
+        return new DeletedEventId(userId,removedEvent);
     }
 }

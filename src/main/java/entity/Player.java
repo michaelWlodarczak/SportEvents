@@ -162,15 +162,13 @@ public class Player extends User {
                 isUserActive());
     }
 
-
     public PlayerDetails viewDetail(){
         return new PlayerDetails(getUserId(),
                 getName(),
                 getUserEmail(),
                 getUserType(),
-                getPlayerSubscriptions(),
-                getUserStreet(),
                 getUserCity(),
+                getUserStreet(),
                 getUserCountry(),
                 getUserZipCode(),
                 getPlayerSubscriptions().stream().map(Subscription::toView).collect(Collectors.toList()),
@@ -183,6 +181,4 @@ public class Player extends User {
                 getPlayerLicense(),
                 getPlayerPhone());
     }
-
-
 }
