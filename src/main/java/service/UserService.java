@@ -36,7 +36,7 @@ public class UserService {
 
         public RegisteredUserId updatePlayer(@NonNull RegisterPlayerForm form, UUID userId){
             Player player = userRepository.getPlayerByUserId(userId);
-            Player.updatePlayer(form, player); //TODO
+            Player.updatePlayer(form, player);
             userRepository.save(player);
             return new RegisteredUserId(player.getUserId());
         }
@@ -52,7 +52,7 @@ public class UserService {
 
         public RegisteredUserId updateOrganizer(@NonNull RegisterOrganizerForm form, UUID userId){
             Organizer organizer = userRepository.getOrganizerByUserId(userId);
-            Organizer.updatOrganizer(form, organizer); //TODO
+            Organizer.updateOrganizer(form, organizer);
             userRepository.save(organizer);
             return new RegisteredUserId(organizer.getUserId());
         }

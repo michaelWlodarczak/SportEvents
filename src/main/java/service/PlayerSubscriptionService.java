@@ -53,11 +53,11 @@ public class PlayerSubscriptionService {
         }
         Player player = userRepository.getPlayerByUserId(form.getUserId());
         Event event = eventsRepository.getById(form.getEventId());
-        Subscription subscription = subscriptionRepository.
-                findByEvent_EventIdAndPlayer_UserId(event.getEventId(),player.getUserId());
+        Subscription subscription = subscriptionRepository
+                .findFirstByEvent_EventIdAndPlayer_UserId(event.getEventId(),player.getUserId());
         UUID removedSubscription = subscription.getSubscriptionId();
         if (subscription != null){
-            player.removeSubscription(event); //TODO
+            player.removeSubscription(event);
             event.removeSubscription(subscription);
             userRepository.save(player);
             return removedSubscription;
@@ -65,15 +65,31 @@ public class PlayerSubscriptionService {
         return null;
     }
 
-    //TODO
-//    public RegisteredSubscriptionId addSubscriptionRest(){
-//
-//    }
+    /* Prepare form for POST purposes (GET ID FORM URL PARAM) and POST IT
+     * */
+    public RegisteredSubscriptionId addSubscriptionRest(@NonNull RegisterSubscriptionForm form, UUID userId){
+        //validation
+        RegisterSubscriptionForm subForm = new RegisterSubscriptionForm(
+                userId,
+                form.isSubscriptionPaymentDone(),
+                form.getSubscriptionDate(),
+                form.isSubscriptionApproved(),
+                form.getEventId()
+        );
+        return addSubscription(subForm);
+    }
 
-    //TODO
-//    public DeletedSubscriptionId removeSubscriptionRest(){
-//
-//    }
-
-
+    /* Prepare form for POST purposes (GET ID FORM URL PARAM) and POST IT
+     * */
+    public DeletedSubscriptionId removeSubscriptionRest(@NonNull RegisterSubscriptionForm form, UUID userId){
+        RemoveSubscriptionForm subForm = new RemoveSubscriptionForm(
+                userId,
+                form.getEventId()
+        );
+        UUID removedSubscription = removeSubscription(subForm);
+        if (removedSubscription == null){
+            throw new SubscriptionException("Subscription removing problem");
+        }
+        return new DeletedSubscriptionId(userId,removedSubscription);
+    }
 }

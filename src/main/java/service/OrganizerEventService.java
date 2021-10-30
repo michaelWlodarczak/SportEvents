@@ -9,6 +9,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import service.dto.AddEventForm;
+import service.dto.RegisterEventForm;
 import service.dto.RegisteredEventId;
 import service.dto.RemoveEventForm;
 import service.exception.EventException;
@@ -28,14 +29,14 @@ public class OrganizerEventService {
     @NonNull
     private EventsRepository eventsRepository;
 
-    public RegisteredEventId addEvent(@NonNull AddEventForm form) {
+    public RegisteredEventId addEvent(@NonNull RegisterEventForm form) {
         if (!(userRepository.getById(form.getUserId()).getUserType().equals(UserType.ORGANIZER))) {
             throw new SubscriptionException("The user is not an Organizer");
         }
         Organizer organizer = userRepository.getOrganizerByUserId(form.getUserId());
         Event event = new Event(
                 form.getEventTitle(),
-                LocalDateTime.parse(form.getEventDate()), //TODO
+                LocalDateTime.parse(form.getEventDate()),
                 Integer.valueOf(form.getEventPlayerLimit()),
                 Double.valueOf(form.getEventFee()),
         organizer);
@@ -56,6 +57,15 @@ public class OrganizerEventService {
         return removedEventId;
     }
 
-
-
+    /* Prepare form for POST purposes (GET ID FORM URL PARAM) and POST IT
+     * Added LocalDateTime auto generation if null
+     *
+     * */
+    public RegisteredEventId addEventRest(@NonNull RegisterEventForm form, UUID userId){
+        //Some validation rules
+        //TODO Extend Date Validation Class
+        String formDate = form.getEventDate();
+        String formPlayerLimit = form.getEventPlayerLimit();
+        String formEventFee = form.getEventFee(); //TODO - continue
+    }
 }

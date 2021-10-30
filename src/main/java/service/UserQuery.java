@@ -37,12 +37,12 @@ public class UserQuery {
     public List<OrganizerView> listOrganizers(){
         List<OrganizerView> collect = userRepository.getAllOrganizers().stream()
                 .filter(organizer -> organizer.getUserType().equals(UserType.ORGANIZER))
-                .map(Organizer::toOrganizerView) //TODO
+                .map(Organizer::toOrganizerView)
                 .collect(Collectors.toList());
         return collect;
     }
 
     public OrganizerDetails getOrganizerDetails(UUID userId){
-        return userRepository.getOrganizerByUserId(userId).viewDetail();  //TODO
+        return userRepository.getOrganizerByUserId(userId).viewDetail();
     }
 }

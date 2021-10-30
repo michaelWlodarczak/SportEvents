@@ -1,9 +1,8 @@
 package entity;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import lombok.*;
+import service.dto.OrganizerDetails;
+import service.dto.OrganizerView;
 import service.dto.RegisterOrganizerForm;
 import service.exception.EventException;
 
@@ -12,16 +11,17 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Entity
 @DiscriminatorValue("ORAGANIZER")
 @Getter
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Organizer extends User {
 
     private String organizerName;
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "organizer_id")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "organizer", orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Event> organizerEvents;
 
     public Organizer(String userLogin,
@@ -67,44 +67,58 @@ public class Organizer extends User {
                 form.getOrganizerName());
     }
 
+    public static Organizer updateOrganizer(RegisterOrganizerForm form, Organizer organizer) {
+        organizer.setUserLogin(form.getUserLogin());
+        organizer.setUserPassword(form.getUserPassword());
+        //email?
+        organizer.setUserStreet(form.getUserStreet());
+        organizer.setUserCity(form.getUserCity());
+        organizer.setUserCity(form.getUserCity());
+        organizer.setUserZipCode(form.getUserZipCode());
+        organizer.setOrganizerName(form.getOrganizerName());
+        return organizer;
+    }
+
     public void addEvent(Event event) {
         if (event != null) {
-            if (!organizerEvents.contains(event)){
+            if (!organizerEvents.contains(event)) {
                 organizerEvents.add(event);
-            }else {
+            } else {
                 throw new EventException("Event already exist for this Organizer");
             }
         }
     }
-    public void removeEvent(Event event){
-        if (event != null){
-            if (organizerEvents.contains(event)){
+
+    public void removeEvent(Event event) {
+        if (event != null) {
+            if (organizerEvents.contains(event)) {
                 organizerEvents.remove(event);
-            }else {
+            } else {
                 throw new EventException("Event do not exist for this Organizer");
             }
         }
     }
-    //TODO dopisac widoki w service.dto
-//    public OrganizerView toOrganizerView(){
-//        return new OrganizerView(getUserId(),
-//                getName(),
-//                getUserEmail(),
-//                getUserType(),
-//                getOrganizerEvents().size(),
-//                isUserActive());
-//    }
-//    public OrganizerDetails viewDetail(){
-//        return new OrganizerDetails(getUserId(),
-//                getOrganizerName(),
-//                getUserEmail(),
-//                getUserType(),
-//                getUserCity(),
-//                getUserStreet(),
-//                getUserCountry(),
-//                getUserZipCode(),
-//                getOrganizerEvents().stream().map(Event::toView).collect(Collectors.toList())
-//        );
-//    }
+
+    public OrganizerView toOrganizerView(){
+        return new OrganizerView(getUserId(),
+                getName(),
+                getUserEmail(),
+                getUserType(),
+                getOrganizerEvents().size(),
+                isUserActive());
+    }
+
+    public OrganizerDetails viewDetail(){
+        return new OrganizerDetails(getUserId(),
+                getOrganizerName(),
+                getUserEmail(),
+                getUserType(),
+                getUserCity(),
+                getUserStreet(),
+                getUserCountry(),
+                getUserZipCode(),
+                getOrganizerEvents().stream().map(Event::toView).collect(Collectors.toList())
+        );
+    }
 
 }
