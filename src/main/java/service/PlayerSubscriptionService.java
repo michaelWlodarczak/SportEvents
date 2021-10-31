@@ -81,7 +81,7 @@ public class PlayerSubscriptionService {
 
     /* Prepare form for POST purposes (GET ID FORM URL PARAM) and POST IT
      * */
-    public DeletedSubscriptionId removeSubscriptionRest(@NonNull RegisterSubscriptionForm form, UUID userId){
+    public DeletedSubscriptionId removeSubscriptionRest(@NonNull RemoveSubscriptionForm form, UUID userId){
         RemoveSubscriptionForm subForm = new RemoveSubscriptionForm(
                 userId,
                 form.getEventId()

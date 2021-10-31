@@ -49,17 +49,17 @@ public class UserWriteRestController {
                 .body(userService.updateOrganizer(form,userId));
     }
 
-    @PutMapping("/activate/{userId}")
-    ResponseEntity<RegisteredUserId> activateUser(@PathVariable UUID userId){
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(userMaintenanceService.activateUser(userId)); //TODO
-    }
-
-    @PutMapping("/deactivate/{userId}")
-    ResponseEntity<RegisteredUserId> deactivateUser(@PathVariable UUID userId){
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(userMaintenanceService.deactivateUser(userId)); //TODO
-    }
+//    @PutMapping("/activate/{userId}")
+//    ResponseEntity<RegisteredUserId> activateUser(@PathVariable UUID userId){
+//        return ResponseEntity
+//                .status(HttpStatus.OK)
+//                .body(userMaintenanceService.activateUser(userId)); //TODO
+//    }
+//
+//    @PutMapping("/deactivate/{userId}")
+//    ResponseEntity<RegisteredUserId> deactivateUser(@PathVariable UUID userId){
+//        return ResponseEntity
+//                .status(HttpStatus.OK)
+//                .body(userMaintenanceService.deactivateUser(userId)); //TODO
+//    }
 }

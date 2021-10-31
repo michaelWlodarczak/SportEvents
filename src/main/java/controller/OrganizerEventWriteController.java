@@ -22,7 +22,8 @@ public class OrganizerEventWriteController {
 
     @NonNull
     UserService userService;
-    @NonNull OrganizerEventService organizerEventService;
+    @NonNull
+    OrganizerEventService organizerEventService;
 
     @PostMapping("/{userId}/event")
     ResponseEntity<RegisteredEventId> registerEvent(@RequestBody RegisterEventForm form, @PathVariable UUID userId){

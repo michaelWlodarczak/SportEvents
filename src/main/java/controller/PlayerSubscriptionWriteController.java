@@ -35,7 +35,7 @@ public class PlayerSubscriptionWriteController {
     ResponseEntity<DeletedSubscriptionId> removeSubscription(@RequestBody RemoveSubscriptionForm form, @PathVariable UUID userId){
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(playerSubscriptionService.removeSubscriptionRest(form,userId)); // TODO ?!
+                .body(playerSubscriptionService.removeSubscriptionRest(form,userId));
     }
 
     //TODO PUT ?!
