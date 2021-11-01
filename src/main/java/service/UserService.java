@@ -1,6 +1,5 @@
 package service;
 
-
 import entity.Organizer;
 import entity.Player;
 import entity.repositories.UserRepository;
@@ -14,7 +13,7 @@ import service.dto.RegisteredUserId;
 import service.exception.EmailAlreadyExistException;
 
 import javax.transaction.Transactional;
-import java.time.format.DateTimeFormatter;
+
 import java.util.UUID;
 
 @Service // TODO sprawdzic adnotacje
