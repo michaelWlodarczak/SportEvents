@@ -81,11 +81,11 @@ class UserRepositoryTest {
         //when
         final var result = repository.findByOrganizerName("Cjalis");
         //then
-        assertEquals(List.of(user),result);
+        assertEquals(List.of(user), result);
     }
 
     @Test
-    public void shouldFindByEmail(){
+    public void shouldFindByEmail() {
         //given
         final var user = new Organizer(
                 "Cjalis",
@@ -100,7 +100,7 @@ class UserRepositoryTest {
         //when
         final var result = repository.findByUserEmail("cjalis@onet.pl");
         //then
-        assertEquals(List.of(user),result);
+        assertEquals(List.of(user), result);
     }
 
     @Test
@@ -108,12 +108,65 @@ class UserRepositoryTest {
         // given
         /* shouldSave() */
         // when
-        User user = repository.findByUserEmail("m@wp.pl");
+        User user = repository.findByUserEmail("krzys@wp.pl");
         // then
         assertNotNull(user);
     }
 
+    @Test
+    public void shouldGetUserById() {
+        //given
+        final var user1 = new Player(
+                "walo15",
+                "pasekNaDresie",
+                "walo15@wp.pl",
+                "Grochowska",
+                "Olsztyn",
+                "Polska",
+                "11-345",
+                "Waldemar",
+                "Walasik",
+                LocalDate.of(1989, 06, 25),
+                "",
+                65,
+                "",
+                "",
+                "607892345");
+
+        final var user2 = new Organizer(
+                "Cjalis",
+                "blok",
+                "cjalis@onet.pl",
+                "Piekna",
+                "Piaseczno",
+                "Polska",
+                "09-130",
+                "Cjalis");
+
+        repository.saveAllAndFlush(List.of(user1, user2));
+
+        //when & then
+        if (user1 instanceof Player) {
+            //user1 = repository.getPlayerByUserId(user1.getUserId());
+
+        }
+    }
+
+    @Test
+    void shouldGetUserById2() {
+        // given
+        /* shouldSave() */
+        // when
+        User user = repository.findByUserEmail("julka_buziaczek@interia.pl"); //player@player.com
+        if (user instanceof Player) {
+            Player player = repository.getPlayerByUserId(user.getUserId());
+            assertTrue(user.getUserId().equals(player.getUserId()));
+        } else if (user instanceof Organizer) {
+            Organizer organizer = repository.getOrganizerByUserId(user.getUserId());
+            assertTrue(user.getUserId().equals(organizer.getUserId()));
+        }
+        // then
 
 
-
+    }
 }

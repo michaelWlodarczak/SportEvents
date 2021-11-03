@@ -29,7 +29,7 @@ public class UserWriteRestController {
     }
 
     @PutMapping("/players/{userId}")
-    ResponseEntity<RegisteredUserId> updateUser(@RequestBody RegisterPlayerForm form, @PathVariable UUID userId){
+    ResponseEntity<RegisteredUserId> updatePlayer(@RequestBody RegisterPlayerForm form, @PathVariable UUID userId){
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(userService.updatePlayer(form,userId));

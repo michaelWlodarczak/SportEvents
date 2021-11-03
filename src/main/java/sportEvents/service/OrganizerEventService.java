@@ -26,9 +26,9 @@ public class OrganizerEventService {
     @NonNull
     private EventsRepository eventsRepository;
 
-    public RegisteredEventId addEvent(@NonNull RegisterEventForm form) {
-        if (!(userRepository.getById(form.getUserId()).getUserType().equals(UserType.ORGANIZER))) {
-            throw new SubscriptionException("The user is not an Organizer");
+    public RegisteredEventId addEvent(@NonNull RegisterEventForm form){
+        if (!(userRepository.getUserType(form.getUserId()).equals(UserType.ORGANIZER))) {
+            throw new SubscriptionException("Given user is not a Organizer");
         }
         Organizer organizer = userRepository.getOrganizerByUserId(form.getUserId());
         Event event = new Event(
