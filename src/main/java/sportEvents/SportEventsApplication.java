@@ -55,7 +55,7 @@ public class SportEventsApplication extends SpringBootServletInitializer {
                     "Krzysztof",
                     "Ptych",
                     "1984-03-01",
-                    "",
+                    "Arka Gdynia",
                     "80",
                     "",
                     "123456789",

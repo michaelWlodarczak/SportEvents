@@ -35,11 +35,11 @@ public class OrganizerEventService {
                 form.getEventTitle(),
                 LocalDateTime.parse(form.getEventDate()),
                 Integer.valueOf(form.getEventPlayerLimit()),
-                Double.valueOf(form.getEventFee()),
-        organizer);
+                Double.parseDouble(form.getEventFee()),
+                organizer);
         organizer.addEvent(event);
         userRepository.save(organizer);
-        return new RegisteredEventId(organizer.getUserId(), event.getEventId());
+        return new RegisteredEventId(organizer.getUserId(),event.getEventId());
     }
 
     public UUID removeEvent(@NonNull RemoveEventForm form) {

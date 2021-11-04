@@ -77,7 +77,6 @@ public class Event {
                 eventSubscriptions.size());
     }
 
-
     public EventDetails viewDetail(){
         return new EventDetails(getEventId(),
                 getOrganizer().getUserId(),

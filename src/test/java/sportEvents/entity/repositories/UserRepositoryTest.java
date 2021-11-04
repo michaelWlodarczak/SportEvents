@@ -1,5 +1,6 @@
 package sportEvents.entity.repositories;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -7,6 +8,7 @@ import org.springframework.test.context.ActiveProfiles;
 import sportEvents.entity.Organizer;
 import sportEvents.entity.Player;
 import sportEvents.entity.User;
+import sportEvents.service.dto.RegisterPlayerForm;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
@@ -144,19 +146,22 @@ class UserRepositoryTest {
                 "Cjalis");
 
         repository.saveAllAndFlush(List.of(user1, user2));
-
         //when & then
         if (user1 instanceof Player) {
-            //user1 = repository.getPlayerByUserId(user1.getUserId());
-
+            Player player = repository.getPlayerByUserId(user1.getUserId());
+            assertTrue(user1.getUserId().equals(player.getUserId()));
+        } else if (user2 instanceof Organizer) {
+            Organizer organizer = repository.getOrganizerByUserId(user2.getUserId());
+            assertTrue(user2.getUserId().equals(organizer.getUserId()));
         }
+
     }
 
     @Test
     void shouldGetUserById2() {
         // given
         /* shouldSave() */
-        // when
+        // when & then
         User user = repository.findByUserEmail("julka_buziaczek@interia.pl"); //player@player.com
         if (user instanceof Player) {
             Player player = repository.getPlayerByUserId(user.getUserId());
@@ -165,8 +170,6 @@ class UserRepositoryTest {
             Organizer organizer = repository.getOrganizerByUserId(user.getUserId());
             assertTrue(user.getUserId().equals(organizer.getUserId()));
         }
-        // then
-
-
     }
+
 }

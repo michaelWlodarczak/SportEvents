@@ -36,7 +36,8 @@ public class UserTest {
         userMock.setUserActive(false);
         //then
         assertFalse(userMock.isUserActive());
-
     }
+
+
 
 }
