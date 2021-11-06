@@ -15,11 +15,10 @@ import java.util.stream.Collectors;
 @Component
 @RequiredArgsConstructor
 public class EventQuery {
-
     @NonNull
     private final EventsRepository eventsRepository;
 
-    public List<EventView> eventList(){
+    public List<EventView> listEvents(){
         List<EventView> collect = eventsRepository.findAll().stream()
                 .map(Event::toView)
                 .collect(Collectors.toList());

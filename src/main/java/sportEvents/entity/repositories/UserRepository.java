@@ -27,5 +27,5 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     @Query("select (count(u) > 0) from User u where upper(u.userEmail) = upper(?1)")
     boolean emailExists(String email);
     @Query("select p.playerSubscriptions from Player p where p.userEmail = ?1")
-    List<Subscription> findSubscriptionsByUserEmail (String userEmail); //findSubscriptionsForUserEmail
+    List<Subscription> findSubscriptionsByUserEmail(String userEmail); //findSubscriptionsForUserEmail ?!
 }

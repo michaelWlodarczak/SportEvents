@@ -7,9 +7,7 @@ import java.util.UUID;
 
 @Value
 public class RegisteredSubscriptionId {
-
     @NonNull
     UUID userId;
     UUID subscriptionId;
-
 }

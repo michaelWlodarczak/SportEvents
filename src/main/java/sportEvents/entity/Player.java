@@ -28,17 +28,17 @@ public class Player extends User {
     private String playerTeamName;
     private double playerWeight;
     private String playerAdditionalInfo;
-    private String playerLicense;
+    private String playerLicence;
     private String playerPhone;
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy="player",orphanRemoval = true, fetch = FetchType.EAGER) // TODO sprawdzic to
     private List<Subscription> playerSubscriptions;
 
-    public Player(String userLogin,
-                  String userPassword,
+    public Player(String userPassword,
+                  String userLogin,
                   String userEmail,
-                  String userStreet,
                   String userCity,
+                  String userStreet,
                   String userCountry,
                   String userZipCode,
                   @NonNull String playerFirstName,
@@ -47,26 +47,24 @@ public class Player extends User {
                   String playerTeamName,
                   double playerWeight,
                   String playerAdditionalInfo,
-                  String playerLicense,
+                  String playerLicence,
                   @NonNull String playerPhone) {
-        super(userLogin, userPassword, userEmail, userStreet, userCity, userCountry, userZipCode);
+        super(userPassword, userLogin, userEmail, userCity, userStreet, userCountry, userZipCode);
         this.playerFirstName = playerFirstName;
         this.playerLastName = playerLastName;
         this.playerDOB = playerDOB;
         this.playerTeamName = playerTeamName;
         this.playerWeight = playerWeight;
         this.playerAdditionalInfo = playerAdditionalInfo;
-        this.playerLicense = playerLicense;
+        this.playerLicence = playerLicence;
         this.playerPhone = playerPhone;
         this.playerSubscriptions = new ArrayList<>();
     }
-
 
     @Override
     public String getName() {
         return playerFirstName + " " + playerLastName;
     }
-
 
     @Override
     public boolean equals(Object o) {
@@ -85,13 +83,33 @@ public class Player extends User {
         return Objects.hash(super.hashCode(), playerFirstName, playerLastName, playerDOB, playerPhone);
     }
 
+//    public static Player createWith(RegisterPlayerForm form) {
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//        return new Player(form.getUserLogin(),
+//                form.getUserPassword(),
+//                form.getUserEmail(),
+//                form.getUserStreet(),
+//                form.getUserCity(),
+//                form.getUserCountry(),
+//                form.getUserZipCode(),
+//                form.getPlayerFirstName(),
+//                form.getPlayerLastName(),
+//                LocalDate.parse(form.getPlayerDOB(),formatter),
+//                form.getPlayerTeamName(),
+//                Double.valueOf(form.getPlayerWeight()),
+//                form.getPlayerAdditionalInfo(),
+//                form.getPlayerLicense(),
+//                form.getPlayerPhone());
+//    }
+
     public static Player createWith(RegisterPlayerForm form) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        return new Player(form.getUserLogin(),
-                form.getUserPassword(),
+
+        return new  Player(form.getUserPassword(),
+                form.getUserLogin(),
                 form.getUserEmail(),
-                form.getUserStreet(),
                 form.getUserCity(),
+                form.getUserStreet(),
                 form.getUserCountry(),
                 form.getUserZipCode(),
                 form.getPlayerFirstName(),
@@ -100,17 +118,17 @@ public class Player extends User {
                 form.getPlayerTeamName(),
                 Double.valueOf(form.getPlayerWeight()),
                 form.getPlayerAdditionalInfo(),
-                form.getPlayerLicense(),
+                form.getPlayerLicence(),
                 form.getPlayerPhone());
     }
 
     public static Player updatePlayer(RegisterPlayerForm form, Player player){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         player.setUserPassword(form.getUserPassword());
-
+        //player.setUserLogin(form.getUserLogin());
         player.setUserEmail(form.getUserEmail());
-        player.setUserStreet(form.getUserStreet());
         player.setUserCity(form.getUserCity());
+        player.setUserStreet(form.getUserStreet());
         player.setUserCountry(form.getUserCountry());
         player.setUserZipCode(form.getUserZipCode());
         player.setPlayerFirstName(form.getPlayerFirstName());
@@ -119,37 +137,37 @@ public class Player extends User {
         player.setPlayerTeamName(form.getPlayerTeamName());
         player.setPlayerWeight(Double.parseDouble(form.getPlayerWeight()));
         player.setPlayerAdditionalInfo(form.getPlayerAdditionalInfo());
-        player.setPlayerLicense(form.getPlayerLicense());
+        player.setPlayerLicence(form.getPlayerLicence());
         player.setPlayerPhone(form.getPlayerPhone());
         return player;
     }
 
     public void addSubscription(Subscription subscription){
-        if(subscription != null){
-            if(!playerSubscriptions.contains(subscription)){
+        if(subscription != null) {
+            if( !playerSubscriptions.contains(subscription)){
                 playerSubscriptions.add(subscription);
-            }else {
+            } else {
                 throw new SubscriptionException("Subscription for this event already exist for this Player");
             }
         }
     }
-
     public void removeSubscription(Event event){
-        if (event != null){
+
+        if(event != null) {
             Subscription subscription = playerSubscriptions.stream()
-                    .filter(subEvent -> event.equals(subEvent.getEvent()))
+                    .filter(subEvent-> event.equals(subEvent.getEvent()))
                     .findFirst().orElse(null);
-            if(playerSubscriptions.contains(subscription)){
+            if( playerSubscriptions.contains(subscription)){
                 playerSubscriptions.remove(subscription);
-            }else {
+            } else {
                 throw new SubscriptionException("Subscription for this event not exist for this Player");
             }
         }
     }
 
-    public List<Subscription> getApprovedSubscriptions() {
-        return playerSubscriptions.stream().
-                filter(subEvent -> subEvent.isSubscriptionApproved())
+    public List<Subscription> getApprovedSubscriptions(){
+        return playerSubscriptions.stream()
+                .filter(subEvent-> subEvent.isSubscriptionApproved())
                 .collect(Collectors.toList());
     }
 
@@ -178,7 +196,7 @@ public class Player extends User {
                 getPlayerTeamName(),
                 String.valueOf(getPlayerWeight()),
                 getPlayerAdditionalInfo(),
-                getPlayerLicense(),
+                getPlayerLicence(),
                 getPlayerPhone());
     }
 }

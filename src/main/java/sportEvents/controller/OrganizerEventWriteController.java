@@ -19,11 +19,8 @@ import java.util.UUID;
 @RequestMapping("/api/organizers")
 @RequiredArgsConstructor
 public class OrganizerEventWriteController {
-
-    @NonNull
-    UserService userService;
-    @NonNull
-    OrganizerEventService organizerEventService;
+    @NonNull UserService userService;
+    @NonNull OrganizerEventService organizerEventService;
 
     @PostMapping("/{userId}/event")
     ResponseEntity<RegisteredEventId> registerEvent(@RequestBody RegisterEventForm form, @PathVariable UUID userId){
@@ -31,14 +28,11 @@ public class OrganizerEventWriteController {
                 .status(HttpStatus.CREATED)
                 .body(organizerEventService.addEventRest(form,userId));
     }
-
     @DeleteMapping("/{userId}/event")
     ResponseEntity<DeletedEventId> removeSubscription(@RequestBody RemoveEventForm form, @PathVariable UUID userId){
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(organizerEventService.removeEventRest(form,userId));
-
     }
-
-    //  TODO PUT ?!
+    //TODO PUT ?!
 }

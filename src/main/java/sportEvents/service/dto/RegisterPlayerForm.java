@@ -25,7 +25,7 @@ public class RegisterPlayerForm {
     String playerTeamName;
     String playerWeight;
     String playerAdditionalInfo;
-    String playerLicense;
+    String playerLicence;
     @NonNull
     String playerPhone;
 }

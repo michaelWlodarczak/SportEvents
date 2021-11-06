@@ -18,11 +18,8 @@ import java.util.UUID;
 @RequestMapping("/api/players")
 @RequiredArgsConstructor
 public class PlayerSubscriptionWriteController {
-
-    @NonNull
-    UserService userService;
-    @NonNull
-    PlayerSubscriptionService playerSubscriptionService;
+    @NonNull UserService userService;
+    @NonNull PlayerSubscriptionService playerSubscriptionService;
 
     @PostMapping("/{userId}/subscriptions")
     ResponseEntity<RegisteredSubscriptionId> registerSubscription(@RequestBody RegisterSubscriptionForm form, @PathVariable UUID userId){
@@ -30,14 +27,11 @@ public class PlayerSubscriptionWriteController {
                 .status(HttpStatus.CREATED)
                 .body(playerSubscriptionService.addSubscriptionRest(form,userId));
     }
-
     @DeleteMapping("/{userId}/subscriptions")
     ResponseEntity<DeletedSubscriptionId> removeSubscription(@RequestBody RemoveSubscriptionForm form, @PathVariable UUID userId){
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(playerSubscriptionService.removeSubscriptionRest(form,userId));
     }
-
     //TODO PUT ?!
-
 }

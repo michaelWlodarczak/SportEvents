@@ -23,36 +23,36 @@ public class UserService {
     @NonNull
     private final UserRepository userRepository;
 
-        public RegisteredUserId registerPlayer(@NonNull RegisterPlayerForm form)throws EmailAlreadyExistException {
-            if(userRepository.emailExists(form.getUserEmail())){
-                throw new EmailAlreadyExistException("Account with email exists: " + form.getUserEmail());
-            }
-            Player player = Player.createWith(form);
-            userRepository.save(player);
-            return new RegisteredUserId(player.getUserId());
+    public RegisteredUserId registerPlayer(@NonNull RegisterPlayerForm form) throws EmailAlreadyExistException {
+        if (userRepository.emailExists(form.getUserEmail()))
+        {
+            throw new EmailAlreadyExistException("Account with email exist: "+form.getUserEmail());
         }
+        Player player = Player.createWith(form);
+        userRepository.save(player);
+        return new RegisteredUserId(player.getUserId());
+    }
+    public RegisteredUserId updatePlayer(@NonNull RegisterPlayerForm form, UUID userId) {
+        Player player = userRepository.getPlayerByUserId(userId);
+        Player.updatePlayer(form, player);
+        userRepository.save(player);
+        return new RegisteredUserId(player.getUserId());
+    }
 
-
-        public RegisteredUserId updatePlayer(@NonNull RegisterPlayerForm form, UUID userId){
-            Player player = userRepository.getPlayerByUserId(userId);
-            Player.updatePlayer(form, player);
-            userRepository.save(player);
-            return new RegisteredUserId(player.getUserId());
+    public RegisteredUserId registerOrganizer(@NonNull RegisterOrganizerForm form) throws EmailAlreadyExistException {
+        if (userRepository.emailExists(form.getUserEmail()))
+        {
+            throw new EmailAlreadyExistException("Account with email exist: "+form.getUserEmail());
         }
+        Organizer organizer = Organizer.createWith(form);
+        userRepository.save(organizer);
+        return new RegisteredUserId(organizer.getUserId());
+    }
 
-        public RegisteredUserId registerOrganizer(@NonNull RegisterOrganizerForm form) throws EmailAlreadyExistException{
-            if (userRepository.emailExists(form.getUserEmail())){
-                throw new EmailAlreadyExistException("Account with email exists: " + form.getUserEmail());
-            }
-            Organizer organizer = Organizer.createWith(form);
-            userRepository.save(organizer);
-            return new RegisteredUserId(organizer.getUserId());
-        }
-
-        public RegisteredUserId updateOrganizer(@NonNull RegisterOrganizerForm form, UUID userId){
-            Organizer organizer = userRepository.getOrganizerByUserId(userId);
-            Organizer.updateOrganizer(form, organizer);
-            userRepository.save(organizer);
-            return new RegisteredUserId(organizer.getUserId());
-        }
+    public RegisteredUserId updateOrganizer(@NonNull RegisterOrganizerForm form, UUID userId) {
+        Organizer organizer = userRepository.getOrganizerByUserId(userId);
+        Organizer.updateOrganizer(form, organizer);
+        userRepository.save(organizer);
+        return new RegisteredUserId(organizer.getUserId());
+    }
 }

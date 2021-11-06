@@ -19,42 +19,42 @@ public class Subscription {
     @Id
     private UUID subscriptionId;
     private boolean subscriptionPaymentDone;
-    private LocalDateTime dateOfPayment;
+    private LocalDateTime subscriptionDate;
     private boolean subscriptionApproved;
     @ManyToOne()
-    @JoinColumn(name = "player_id",nullable = false)
+    @JoinColumn(name = "player_id",nullable=false)
     Player player;
     @ManyToOne()
-    @JoinColumn(name = "events_id",nullable = false)
+    @JoinColumn(name = "events_id",nullable=false)
     private Event event;
 
     public Subscription(Boolean subscriptionPaymentDone,
-                        LocalDateTime dateOfPayment,
+                        LocalDateTime subscriptionDate,
                         Boolean subscriptionApproved,
                         Event event, Player player) {
-        this.subscriptionId = UUID.randomUUID();
+        this.subscriptionId =  UUID.randomUUID();
         this.subscriptionPaymentDone = subscriptionPaymentDone;
-        this.dateOfPayment = dateOfPayment;
+        this.subscriptionDate = subscriptionDate;
         this.subscriptionApproved = subscriptionApproved;
         this.event = event;
         this.player = player;
     }
 
-    public SubscriptionView toView() {
-        return new SubscriptionView (subscriptionId.toString(),
+    public SubscriptionView toView(){
+        return new SubscriptionView(
+                subscriptionId.toString(),
                 Boolean.toString(subscriptionPaymentDone),
-                dateOfPayment.toString(),
+                subscriptionDate.toString(),
                 Boolean.toString(subscriptionApproved),
                 event.getEventTitle(),
                 event.getEventDate().toString(),
                 event.getEventId().toString());
     }
 
-
     public SubscriptionEventView toEventView(){
-        return new SubscriptionEventView(subscriptionId.toString(),
+        return new SubscriptionEventView( subscriptionId.toString(),
                 Boolean.toString(subscriptionPaymentDone),
-                dateOfPayment.toString(),
+                subscriptionDate.toString(),
                 Boolean.toString(subscriptionApproved),
                 event.getEventTitle(),
                 event.getEventDate().toString(),

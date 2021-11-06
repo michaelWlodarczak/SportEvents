@@ -1,11 +1,8 @@
 package sportEvents.entity;
 
 import com.sun.istack.NotNull;
+import lombok.*;
 import sportEvents.entity.enums.UserType;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -24,28 +21,28 @@ public abstract class User {
     @Column(name = "user_type", insertable = false, updatable = false)
     @Enumerated(EnumType.STRING)
     private UserType userType;
-    private String userLogin;
     private String userPassword;
+    private String userLogin;
     private String userEmail;
-    private String userStreet;
     private String userCity;
+    private String userStreet;
     private String userCountry;
     private String userZipCode;
     private boolean userActive;
 
-    public User(@NotNull String userLogin,
-                @NotNull String userPassword,
-                @NotNull String userEmail,
-                String userStreet,
+    public User(@NonNull String userPassword,
+                @NonNull String userLogin,
+                @NonNull String userEmail,
                 String userCity,
+                String userStreet,
                 String userCountry,
                 String userZipCode) {
         this.userId = UUID.randomUUID();
-        this.userLogin = userLogin;
         this.userPassword = userPassword;
+        this.userLogin = userLogin;
         this.userEmail = userEmail;
-        this.userStreet = userStreet;
         this.userCity = userCity;
+        this.userStreet = userStreet;
         this.userCountry = userCountry;
         this.userZipCode = userZipCode;
         this.userActive = true;
@@ -66,7 +63,7 @@ public abstract class User {
         return Objects.hash(userId, userEmail);
     }
 
-    public void setUserActive (boolean active){
+    public void setUserActive(boolean active) {
         this.userActive = active;
     }
 }

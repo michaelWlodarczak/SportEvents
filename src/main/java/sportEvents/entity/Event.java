@@ -1,5 +1,6 @@
 package sportEvents.entity;
 
+import com.sun.istack.NotNull;
 import lombok.*;
 import sportEvents.service.dto.EventDetails;
 import sportEvents.service.dto.EventView;
@@ -26,19 +27,17 @@ public class Event {
     private LocalDateTime eventDate;
     private int eventPlayerLimit;
     private double eventFee;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy="event",orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "event", orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Subscription> eventSubscriptions;
-
     @ManyToOne()
-    @JoinColumn(name = "events_id",nullable = false)
+    @JoinColumn(name = "events_id", nullable = false)
     private Organizer organizer;
 
-    public Event(@NonNull String eventTitle,
-                 @NonNull LocalDateTime eventDate,
-                 @NonNull Integer eventPlayerLimit,
-                 @NonNull double eventFee,
-                 @NonNull Organizer organizer) {
+    public Event(@NotNull String eventTitle,
+                 @NotNull LocalDateTime eventDate,
+                 @NotNull Integer eventPlayerLimit,
+                 @NotNull double eventFee,
+                 @NotNull Organizer organizer) {
         this.eventId = UUID.randomUUID();
         this.eventTitle = eventTitle;
         this.eventDate = eventDate;
@@ -48,19 +47,19 @@ public class Event {
         this.eventSubscriptions = new ArrayList<>();
     }
 
-    public void addSubscription(Subscription subscription){
-        if (subscription != null){
-            if (!eventSubscriptions.contains(subscription)){
+    public void addSubscription(Subscription subscription) {
+        if (subscription != null) {
+            if (!eventSubscriptions.contains(subscription)) {
                 eventSubscriptions.add(subscription);
-            }else {
-                throw new SubscriptionException("Subscription for this event in on the list of this Player");
+            } else {
+                throw new SubscriptionException("Subscription for this event is on the list of this Player");
             }
         }
     }
 
-    public void removeSubscription(Subscription subscription){
-        if(subscription != null) {
-            if( eventSubscriptions.contains(subscription)){
+    public void removeSubscription(Subscription subscription) {
+        if (subscription != null) {
+            if (eventSubscriptions.contains(subscription)) {
                 eventSubscriptions.remove(subscription);
             } else {
                 throw new SubscriptionException("Subscription for this event not exist for this Player");
@@ -68,7 +67,7 @@ public class Event {
         }
     }
 
-    public EventView toView(){
+    public EventView toView() {
         return new EventView(eventId,
                 eventTitle,
                 eventDate,
@@ -77,7 +76,7 @@ public class Event {
                 eventSubscriptions.size());
     }
 
-    public EventDetails viewDetail(){
+    public EventDetails viewDetail() {
         return new EventDetails(getEventId(),
                 getOrganizer().getUserId(),
                 getEventTitle(),

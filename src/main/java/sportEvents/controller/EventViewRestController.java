@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping(value = "/api/events",produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value="/api/events",produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
 public class EventViewRestController {
 
@@ -23,14 +23,13 @@ public class EventViewRestController {
     private final EventQuery query;
 
     @GetMapping
+        // default mapping
         // GET -> /api/events
-        //default mapping
     List<EventView> getEvents() {
-        return query.eventList();
+        return query.listEvents();
     }
-
-    @GetMapping(value = "/{eventId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    EventDetails getEvent(@PathVariable UUID eventId) {
+    @GetMapping(value="/{eventId}",produces = MediaType.APPLICATION_JSON_VALUE)
+    EventDetails getEvent(@PathVariable UUID eventId){
         return query.getEventDetails(eventId);
     }
 }

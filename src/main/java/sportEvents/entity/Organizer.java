@@ -14,25 +14,24 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Entity
-@DiscriminatorValue("ORAGANIZER")
+@DiscriminatorValue("ORGANIZER")
 @Getter
-@Setter
+@Setter()
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Organizer extends User {
-
     private String organizerName;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "organizer", orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Event> organizerEvents;
 
-    public Organizer(String userLogin,
-                     String userPassword,
+    public Organizer(String userPassword,
+                     String userLogin,
                      String userEmail,
-                     String userStreet,
                      String userCity,
+                     String userStreet,
                      String userCountry,
                      String userZipCode,
                      @NonNull String organizerName) {
-        super(userLogin, userPassword, userEmail, userStreet, userCity, userCountry, userZipCode);
+        super(userPassword, userLogin, userEmail, userCity, userStreet, userCountry, userZipCode);
         this.organizerName = organizerName;
         this.organizerEvents = new ArrayList<>();
     }
@@ -57,23 +56,23 @@ public class Organizer extends User {
     }
 
     public static Organizer createWith(RegisterOrganizerForm form) {
-        return new Organizer(form.getUserLogin(),
-                form.getUserPassword(),
+        return new Organizer(form.getUserPassword(),
+                form.getUserLogin(),
                 form.getUserEmail(),
-                form.getUserStreet(),
                 form.getUserCity(),
+                form.getUserStreet(),
                 form.getUserCountry(),
                 form.getUserZipCode(),
                 form.getOrganizerName());
     }
 
     public static Organizer updateOrganizer(RegisterOrganizerForm form, Organizer organizer) {
-        organizer.setUserLogin(form.getUserLogin());
         organizer.setUserPassword(form.getUserPassword());
-        //email?
+        organizer.setUserLogin(form.getUserLogin());
+        //organizer.setUserEmail(form.getUserEmail()),  Email?!
+        organizer.setUserCity(form.getUserCity());
         organizer.setUserStreet(form.getUserStreet());
-        organizer.setUserCity(form.getUserCity());
-        organizer.setUserCity(form.getUserCity());
+        organizer.setUserCountry(form.getUserCountry());
         organizer.setUserZipCode(form.getUserZipCode());
         organizer.setOrganizerName(form.getOrganizerName());
         return organizer;
@@ -94,12 +93,12 @@ public class Organizer extends User {
             if (organizerEvents.contains(event)) {
                 organizerEvents.remove(event);
             } else {
-                throw new EventException("Event do not exist for this Organizer");
+                throw new EventException("Event for this organizer not exist");
             }
         }
     }
 
-    public OrganizerView toOrganizerView(){
+    public OrganizerView toOrganizerView() {
         return new OrganizerView(getUserId(),
                 getName(),
                 getUserEmail(),
@@ -108,7 +107,7 @@ public class Organizer extends User {
                 isUserActive());
     }
 
-    public OrganizerDetails viewDetail(){
+    public OrganizerDetails viewDetail() {
         return new OrganizerDetails(getUserId(),
                 getOrganizerName(),
                 getUserEmail(),
@@ -120,5 +119,4 @@ public class Organizer extends User {
                 getOrganizerEvents().stream().map(Event::toView).collect(Collectors.toList())
         );
     }
-
 }

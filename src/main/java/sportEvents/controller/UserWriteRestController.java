@@ -15,11 +15,8 @@ import java.util.UUID;
 @RequestMapping("/api")
 @RequiredArgsConstructor
 public class UserWriteRestController {
-
-    @NonNull
-    UserService userService;
-    @NonNull
-    UserMaintenanceService userMaintenanceService;
+    @NonNull UserService userService;
+    @NonNull UserMaintenanceService userMaintenanceService;
 
     @PostMapping("/players")
     ResponseEntity<RegisteredUserId> registerUser(@RequestBody RegisterPlayerForm form){
@@ -27,39 +24,36 @@ public class UserWriteRestController {
                 .status(HttpStatus.CREATED)
                 .body(userService.registerPlayer(form));
     }
-
     @PutMapping("/players/{userId}")
-    ResponseEntity<RegisteredUserId> updatePlayer(@RequestBody RegisterPlayerForm form, @PathVariable UUID userId){
+    ResponseEntity<RegisteredUserId> updatePlayer(@RequestBody RegisterPlayerForm form, @PathVariable UUID userId) {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(userService.updatePlayer(form,userId));
     }
-
     @PostMapping("/organizers")
     ResponseEntity<RegisteredUserId> registerOrganizer(@RequestBody RegisterOrganizerForm form){
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(userService.registerOrganizer(form));
     }
-
     @PutMapping("/organizers/{userId}")
-    ResponseEntity<RegisteredUserId> updateOrganizer(@RequestBody RegisterOrganizerForm form, @PathVariable UUID userId){
+    ResponseEntity<RegisteredUserId> updateOrganizer(@RequestBody RegisterOrganizerForm form, @PathVariable UUID userId) {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(userService.updateOrganizer(form,userId));
     }
+    //TODO check patch mapping OR DO WITH PUT FOR ACTIVATE / DEACTIVATE USERS
+   /* @PatchMapping("/deactivate/{userId}")
+    ResponseEntity<RegisteredUserId> deactivateUser(@PathVariable UUID userId){
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(userService.deactivateUser(userId));
+    }
+    @PatchMapping("/activate/{userId}")
+    ResponseEntity<RegisteredUserId> activateUser(@PathVariable UUID userId){
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(userService.activateUser(userId));
+    }*/
 
-//    @PutMapping("/activate/{userId}")
-//    ResponseEntity<RegisteredUserId> activateUser(@PathVariable UUID userId){
-//        return ResponseEntity
-//                .status(HttpStatus.OK)
-//                .body(userMaintenanceService.activateUser(userId)); //TODO
-//    }
-//
-//    @PutMapping("/deactivate/{userId}")
-//    ResponseEntity<RegisteredUserId> deactivateUser(@PathVariable UUID userId){
-//        return ResponseEntity
-//                .status(HttpStatus.OK)
-//                .body(userMaintenanceService.deactivateUser(userId)); //TODO
-//    }
 }

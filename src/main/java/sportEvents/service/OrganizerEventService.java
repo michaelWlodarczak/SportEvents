@@ -42,10 +42,10 @@ public class OrganizerEventService {
         return new RegisteredEventId(organizer.getUserId(),event.getEventId());
     }
 
-    public UUID removeEvent(@NonNull RemoveEventForm form) {
-        if(eventsRepository.findEventSubscriptions(eventsRepository.getById(form.getEventId())).size()>0){
-            throw new EventException("There are subscriptions for this event. Cannot remove!");
-        }
+    public UUID removeEvent(@NonNull RemoveEventForm form){
+        if (eventsRepository.findEventSubscriptions(eventsRepository.getById(form.getEventId())).size() > 0){
+            throw new EventException("There are subscriptions for this event ! COULD NOT REMOVE !");
+        } //TODO FIND ACTIVE AND DEL ALL OTHERS BEFORE
         Organizer organizer = userRepository.getOrganizerByUserId(form.getUserId());
         Event removedEvent = eventsRepository.getById(form.getEventId());
         UUID removedEventId = removedEvent.getEventId();
@@ -64,19 +64,19 @@ public class OrganizerEventService {
         String formDate = form.getEventDate();
         String formPlayerLimit = form.getEventPlayerLimit();
         String formEventFee = form.getEventFee();
-        if(form.getEventDate().equals("")){
-            throw new EventException("Event must have Title!");
+        if (form.getEventTitle().equals("")) {
+            throw new EventException("Event must have a TITLE!");
         }
-        if (eventsRepository.findByEventTitle(form.getEventTitle()).size()>0){
-            throw new EventException("Event with this title already exists");
+        if (eventsRepository.findByEventTitle(form.getEventTitle()).size() > 0) {
+            throw new EventException("Event with given TITLE exists !");
         }
-        if (formDate.equals("")){
+        if (formDate.equals("") ) {
             formDate = LocalDateTime.now().toString();
         }
-        if(Integer.parseInt(formPlayerLimit)>0){
+        if (Integer.parseInt(formPlayerLimit) > 0){
             formPlayerLimit = String.valueOf(0);
         }
-        if (Double.parseDouble(formEventFee)>0){
+        if (Double.parseDouble(formEventFee) > 0){
             formEventFee = String.valueOf(0.0d);
         }
         RegisterEventForm userAddedForm = new RegisterEventForm(
@@ -84,17 +84,18 @@ public class OrganizerEventService {
                 form.getEventTitle(),
                 formDate,
                 formPlayerLimit,
-                formEventFee);
+                formEventFee
+        );
         return addEvent(userAddedForm);
     }
 
-    public DeletedEventId removeEventRest(@NonNull RemoveEventForm form,UUID userId){
-        RemoveEventForm subForm = new RemoveEventForm(
-                userId,form.getEventId()
-        );
-        UUID removedEvent = removeEvent(subForm);
+    public DeletedEventId removeEventRest(@NonNull RemoveEventForm form, UUID userId){
+        RemoveEventForm subform = new RemoveEventForm(
+                userId,
+                form.getEventId());
+        UUID removedEvent = removeEvent(subform);
         if (removedEvent == null){
-            throw new EventException("Event removing problems!");
+            throw new SubscriptionException("Event removing problem !");
         }
         return new DeletedEventId(userId,removedEvent);
     }

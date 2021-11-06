@@ -23,7 +23,8 @@ public class UserQuery {
     @NonNull
     private final UserRepository userRepository;
 
-    public List<PlayerView> listPlayers (){
+    public List<PlayerView> listPlayers(){
+
         List<PlayerView> collect = userRepository.getAllPlayers().stream()
                 .map(Player::toPlayerView)
                 .collect(Collectors.toList());

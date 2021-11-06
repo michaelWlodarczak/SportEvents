@@ -69,7 +69,7 @@ public class SportEventsApplication extends SpringBootServletInitializer {
                     "Toruń",
                     "Polska",
                     "34-876",
-                    "Agnieczka",
+                    "Agnieszka",
                     "Shmidt",
                     "1990-12-16",
                     "Dzikie Julki",
@@ -95,7 +95,7 @@ public class SportEventsApplication extends SpringBootServletInitializer {
 
             final var registeredEventId = organizerEventService.addEvent(new RegisterEventForm
                     (registeredOrganizerId1.getUserId(),
-                            "Zawody pływackie 10.2021",
+                            "Zawody pływackie",
                             LocalDateTime.now().toString(),
                             "12", "15"));
 
