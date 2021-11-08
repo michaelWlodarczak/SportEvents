@@ -1,12 +1,12 @@
 package sportEvents.entity;
 
-import com.sun.istack.NotNull;
 import lombok.*;
+import org.hibernate.annotations.Type;
+import sportEvents.service.dto.UserView;
 import sportEvents.entity.enums.UserType;
 
 import javax.persistence.*;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Table(name = "users")
@@ -17,6 +17,7 @@ import java.util.UUID;
 @Setter
 public abstract class User {
     @Id
+    @Type(type="uuid-char")
     private UUID userId;
     @Column(name = "user_type", insertable = false, updatable = false)
     @Enumerated(EnumType.STRING)
@@ -29,6 +30,8 @@ public abstract class User {
     private String userCountry;
     private String userZipCode;
     private boolean userActive;
+    @ElementCollection(targetClass = String.class)
+    private List<String> userRoles;
 
     public User(@NonNull String userPassword,
                 @NonNull String userLogin,
@@ -46,6 +49,7 @@ public abstract class User {
         this.userCountry = userCountry;
         this.userZipCode = userZipCode;
         this.userActive = true;
+        this.userRoles = new ArrayList<>(Arrays.asList("ROLE_USER"));
     }
 
     public abstract String getName();
@@ -65,5 +69,13 @@ public abstract class User {
 
     public void setUserActive(boolean active) {
         this.userActive = active;
+    }
+
+    public UserView toUserView(){
+        return new UserView(getUserId(),
+                getName(),
+                getUserEmail(),
+                getUserType(),
+                isUserActive());
     }
 }

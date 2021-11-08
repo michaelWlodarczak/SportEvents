@@ -31,7 +31,7 @@ public class Player extends User {
     private String playerLicence;
     private String playerPhone;
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy="player",orphanRemoval = true, fetch = FetchType.EAGER) // TODO sprawdzic to
+    @OneToMany(cascade = CascadeType.ALL,mappedBy="player",orphanRemoval = true, fetch = FetchType.LAZY) // TODO sprawdzic to
     private List<Subscription> playerSubscriptions;
 
     public Player(String userPassword,
@@ -82,25 +82,6 @@ public class Player extends User {
     public int hashCode() {
         return Objects.hash(super.hashCode(), playerFirstName, playerLastName, playerDOB, playerPhone);
     }
-
-//    public static Player createWith(RegisterPlayerForm form) {
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-//        return new Player(form.getUserLogin(),
-//                form.getUserPassword(),
-//                form.getUserEmail(),
-//                form.getUserStreet(),
-//                form.getUserCity(),
-//                form.getUserCountry(),
-//                form.getUserZipCode(),
-//                form.getPlayerFirstName(),
-//                form.getPlayerLastName(),
-//                LocalDate.parse(form.getPlayerDOB(),formatter),
-//                form.getPlayerTeamName(),
-//                Double.valueOf(form.getPlayerWeight()),
-//                form.getPlayerAdditionalInfo(),
-//                form.getPlayerLicense(),
-//                form.getPlayerPhone());
-//    }
 
     public static Player createWith(RegisterPlayerForm form) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");

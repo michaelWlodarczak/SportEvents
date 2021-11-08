@@ -1,5 +1,6 @@
 package sportEvents;
 
+import sportEvents.entity.User;
 import sportEvents.entity.repositories.EventsRepository;
 import sportEvents.entity.repositories.UserRepository;
 import org.springframework.beans.factory.InitializingBean;
@@ -19,6 +20,7 @@ import sportEvents.service.OrganizerEventService;
 
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 
 @SpringBootApplication
 public class SportEventsApplication extends SpringBootServletInitializer {
@@ -36,6 +38,23 @@ public class SportEventsApplication extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
         SpringApplication.run(SportEventsApplication.class, args);
+    }
+
+    @Bean
+    InitializingBean adminData() {
+        return () -> {
+            final var admin = new RegisterOrganizerForm("admin",
+                    "admin",
+                    "admin@admin.com",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "SportEvent"
+            );
+            final var registeredOrganizerId = service.registerOrganizer(admin);
+            service.updateUserRoles(registeredOrganizerId.getUserId(),"ROLE_ADMIN");
+        };
     }
 
     @Bean
@@ -99,7 +118,6 @@ public class SportEventsApplication extends SpringBootServletInitializer {
                             LocalDateTime.now().toString(),
                             "12", "15"));
 
-
             final var registeredSubscriptionId1 = playerSubscriptionService.addSubscription(
                     new RegisterSubscriptionForm(registeredUserId1.getUserId(),
                             true,
@@ -113,6 +131,10 @@ public class SportEventsApplication extends SpringBootServletInitializer {
                             LocalDateTime.now(),
                             true,
                             registeredEventId.getEventId()));
+
+            User user = userRepository.getOrganizerByUserId(registeredOrganizerId1.getUserId());
+            user.setUserRoles(Arrays.asList("ROLE_ADMIN","ROLE_USER"));
+            userRepository.save(user);
 
         };
     }
