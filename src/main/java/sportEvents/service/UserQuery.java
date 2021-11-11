@@ -2,15 +2,13 @@ package sportEvents.service;
 
 import sportEvents.entity.Organizer;
 import sportEvents.entity.Player;
+import sportEvents.entity.User;
 import sportEvents.entity.enums.UserType;
 import sportEvents.entity.repositories.UserRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import sportEvents.service.dto.OrganizerDetails;
-import sportEvents.service.dto.OrganizerView;
-import sportEvents.service.dto.PlayerDetails;
-import sportEvents.service.dto.PlayerView;
+import sportEvents.service.dto.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -22,6 +20,13 @@ public class UserQuery {
 
     @NonNull
     private final UserRepository userRepository;
+
+    public List<UserView> listAllUsers(){
+        List<UserView> collect = userRepository.findAll().stream()
+                .map(User::toUserView)
+                .collect(Collectors.toList());
+        return collect;
+    }
 
     public List<PlayerView> listPlayers(){
 

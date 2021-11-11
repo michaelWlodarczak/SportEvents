@@ -6,6 +6,7 @@ import sportEvents.entity.repositories.UserRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import sportEvents.service.dto.MaintenanceUserId;
 
 import java.util.UUID;
 
@@ -16,14 +17,17 @@ public class UserMaintenanceService {
     @NonNull
     private final UserRepository userRepository;
 
-    public void deactivateUser(UUID userId){
+    public MaintenanceUserId deactivateUser(UUID userId){
         User user = userRepository.getById(userId);
         user.setUserActive(false);
         userRepository.save(user);
+        return new MaintenanceUserId(userId);
     }
-    public void activateUser(UUID userId){
+
+    public MaintenanceUserId activateUser(UUID userId){
         User user = userRepository.getById(userId);
         user.setUserActive(true);
         userRepository.save(user);
+        return new MaintenanceUserId(userId);
     }
 }
