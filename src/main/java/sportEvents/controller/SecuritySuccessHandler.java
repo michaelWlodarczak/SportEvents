@@ -34,11 +34,11 @@ public class SecuritySuccessHandler implements AuthenticationSuccessHandler {
         UserType userType;
         if (authentication.getPrincipal() instanceof UserDetails) {
             SecurityUserDetails securityUserDetails = (SecurityUserDetails) authentication.getPrincipal();
-            if (!UserDetails.isEnabled()) {
+            if (!securityUserDetails.isEnabled()) {
                 throw new IllegalStateException();
             }
             userType = userRepository.getUserType(securityUserDetails.getUserId());
-            switch (UserType) {
+            switch (userType) {
                 case PLAYER:
                     type = "api/players";
                     break;
