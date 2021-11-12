@@ -57,6 +57,23 @@ public class SportEventsApplication extends SpringBootServletInitializer {
         };
     }
 
+//    @Bean TODO
+//    InitializingBean userData() {
+//        return () -> {
+//            final var user = new RegisterOrganizerForm("user",
+//                    "user",
+//                    "user@user.com",
+//                    "",
+//                    "",
+//                    "",
+//                    "",
+//                    "SportEvent"
+//            );
+//            final var registeredOrganizerId = service.registerOrganizer(user);
+//            service.updateUserRoles(registeredOrganizerId.getUserId(),"ROLE_USER");
+//        };
+//    }
+
     @Bean
     @Profile("dev")
     InitializingBean sendDatabase() {
@@ -88,7 +105,7 @@ public class SportEventsApplication extends SpringBootServletInitializer {
                     "Toruń",
                     "Polska",
                     "34-876",
-                    "Agnieszka",
+                    "Monika",
                     "Shmidt",
                     "1990-12-16",
                     "Dzikie Julki",

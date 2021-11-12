@@ -23,6 +23,7 @@ public abstract class User {
     @Enumerated(EnumType.STRING)
     private UserType userType;
     private String userPassword;
+    @Column(unique=true)
     private String userLogin;
     private String userEmail;
     private String userCity;
