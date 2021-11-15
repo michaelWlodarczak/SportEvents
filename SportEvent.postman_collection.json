@@ -1,0 +1,1500 @@
+{
+  "info": {
+    "_postman_id": "dff30654-3384-430c-aa5e-bcbd03ccec3e",
+    "name": "SportEvent",
+    "schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "CreateAndChangePlayer",
+      "item": [
+        {
+          "name": "AddPlayer",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(201);\r",
+                  "});\r",
+                  "pm.test(\"Returned ID is not NULL\", function () {\r",
+                  "    var jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.userId).to.length > 0;\r",
+                  "    pm.collectionVariables.set('PlayerID',jsonData.userId);\r",
+                  "   \r",
+                  "});\r",
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"userPassword\":\"123\",\r\n    \"userLogin\":\"player{{$randomInt}}\",\r\n    \"userEmail\": \"player{{$randomInt}}@player.com\",\r\n    \"userCity\": \"PlayerCity\",\r\n    \"userStreet\": \"PlayerStreet\",\r\n    \"userCountry\": \"Poland CHANGED\",\r\n    \"userZipCode\": \"00000\",\r\n    \"playerFirstName\": \"PlayerName\",\r\n    \"playerLastName\": \"PlayerLastName CHANGED\",\r\n    \"playerDOB\": \"1990-01-01\",\r\n    \"playerTeamName\": \"\",\r\n    \"playerWeight\": \"0.0\",\r\n    \"playerAdditionalInfo\": \"CHANGED\",\r\n    \"playerLicence\": \"\",\r\n    \"playerPhone\": \"123123123\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "http://localhost:8080/api/players/"
+          },
+          "response": []
+        },
+        {
+          "name": "ChangePlayerData",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "\r",
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"userPassword\":\"1234523\",\r\n    \"userLogin\":\"CHANGED{{$randomInt}}\",\r\n    \"userEmail\": \"CHANGED{{$randomInt}}\",\r\n    \"userCity\": \"PlayerCity\",\r\n    \"userStreet\": \"PlayerStreet\",\r\n    \"userCountry\": \"Poland CHANGED\",\r\n    \"userZipCode\": \"00000\",\r\n    \"playerFirstName\": \"PlayerName\",\r\n    \"playerLastName\": \"PlayerLastName CHANGED\",\r\n    \"playerDOB\": \"1990-01-01\",\r\n    \"playerTeamName\": \"\",\r\n    \"playerWeight\": \"0.0\",\r\n    \"playerAdditionalInfo\": \"CHANGED\",\r\n    \"playerLicence\": \"\",\r\n    \"playerPhone\": \"123123123\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "http://localhost:8080/api/players/{{PlayerID}}"
+          },
+          "response": []
+        },
+        {
+          "name": "CheckPlayerData",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "pm.test(\"Your test name\", function () {\r",
+                  "    var jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.email).to.include(\"CHANGED\");\r",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "http://localhost:8080/api/players/{{PlayerID}}"
+          },
+          "response": []
+        },
+        {
+          "name": "Logout",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "pm.collectionVariables.unset('PlayerID');"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "http://localhost:8080/logout"
+          },
+          "response": []
+        }
+      ],
+      "auth": {
+        "type": "basic",
+        "basic": {
+          "password": "admin",
+          "username": "admin"
+        }
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              ""
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              ""
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "CreateAndPlayerAndSubscriptionAndEventThenCheckAndDELETE",
+      "item": [
+        {
+          "name": "AddPlayer",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(201);\r",
+                  "});\r",
+                  "pm.test(\"Returned ID is not NULL\", function () {\r",
+                  "    var jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.userId).to.length > 0;\r",
+                  "    pm.collectionVariables.set('PlayerID',jsonData.userId);\r",
+                  "   \r",
+                  "});\r",
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": {
+                "password": "admin",
+                "username": "admin"
+              }
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"userPassword\":\"123\",\r\n    \"userLogin\":\"playerTest\",\r\n    \"userEmail\": \"player{{$randomInt}}@player.com\",\r\n    \"userCity\": \"PlayerCity\",\r\n    \"userStreet\": \"PlayerStreet\",\r\n    \"userCountry\": \"Poland CHANGED\",\r\n    \"userZipCode\": \"00000\",\r\n    \"playerFirstName\": \"Test\",\r\n    \"playerLastName\": \"Player\",\r\n    \"playerDOB\": \"1990-01-01\",\r\n    \"playerTeamName\": \"\",\r\n    \"playerWeight\": \"0.0\",\r\n    \"playerAdditionalInfo\": \"CHANGED\",\r\n    \"playerLicence\": \"\",\r\n    \"playerPhone\": \"123123123\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "http://localhost:8080/api/players/"
+          },
+          "response": []
+        },
+        {
+          "name": "CheckPlayerData",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "pm.test(\"Your test name\", function () {\r",
+                  "    var jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.name).to.eql(\"Test Player\");\r",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "http://localhost:8080/api/players/{{PlayerID}}"
+          },
+          "response": []
+        },
+        {
+          "name": "AddOrganizer",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(201);\r",
+                  "});\r",
+                  "pm.test(\"Returned ID is not NULL\", function () {\r",
+                  "    var jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.userId).to.length > 0;\r",
+                  "    pm.collectionVariables.set('OrganizerID',jsonData.userId);\r",
+                  "   \r",
+                  "});\r",
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": {
+                "password": "admin",
+                "username": "admin"
+              }
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"userPassword\":\"123\",\r\n    \"userLogin\":\"organizerTest\",\r\n    \"userEmail\": \"organizer{{$randomInt}}@player.com\",\r\n    \"userCity\": \"PlayerCity\",\r\n    \"userStreet\": \"PlayerStreet\",\r\n    \"userCountry\": \"Poland CHANGED\",\r\n    \"userZipCode\": \"00000\",\r\n    \"organizerName\":\"Organizer\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "http://localhost:8080/api/organizers/"
+          },
+          "response": []
+        },
+        {
+          "name": "OrganizerAddEvent",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(201);\r",
+                  "});\r",
+                  "pm.test(\"Returned ID is not NULL\", function () {\r",
+                  "    var jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.userId).to.length > 0;\r",
+                  "    pm.collectionVariables.set('EventID',jsonData.eventId);\r",
+                  "   \r",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": {
+                "username": "organizerTest",
+                "password": "123"
+              }
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"eventTitle\":\"TestEvent\",\r\n    \"eventDate\":\"2022-08-04T10:11:30\",\r\n    \"eventPlayerLimit\":\"10\",\r\n    \"eventFee\":\"1\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "http://localhost:8080/api/organizers/{{OrganizerID}}/event"
+          },
+          "response": []
+        },
+        {
+          "name": "AddSubscriptionToPlayer",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 201\", function () {\r",
+                  "    pm.response.to.have.status(201);\r",
+                  "     var jsonData = pm.response.json();\r",
+                  "    pm.collectionVariables.set('SubscriptionID',jsonData.subscriptionId);\r",
+                  "});\r",
+                  "\r",
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": {
+                "password": "123",
+                "username": "playerTest"
+              }
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"subscriptionPaymentDone\":\"false\",\r\n    \"subscriptionApproved\":\"false\",\r\n    \"eventId\":\"{{EventID}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "http://localhost:8080/api/players/{{PlayerID}}/subscriptions"
+          },
+          "response": []
+        },
+        {
+          "name": "CheckPlayerSubscriptions",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "pm.test('Check SubscriptionID', function(){\r",
+                  "     var jsonData = pm.response.json();\r",
+                  "    const subscirption = jsonData.playerSubscriptions.find\r",
+                  "      (m => m.subscriptionId === pm.collectionVariables.get('SubscriptionID'));\r",
+                  "      pm.expect(subscirption.eventTitle).eql(\"TestEvent\");\r",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": {
+                "password": "123",
+                "username": "playerTest"
+              }
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "http://localhost:8080/api/players/{{PlayerID}}"
+          },
+          "response": []
+        },
+        {
+          "name": "DeleteSubscription",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "pm.test('Check SubscriptionID', function(){\r",
+                  "     var jsonData = pm.response.json();\r",
+                  "      pm.expect(jsonData.playerSubscriptions).undefined;\r",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": {
+                "password": "123",
+                "username": "playerTest"
+              }
+            },
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"eventId\":\"{{EventID}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "http://localhost:8080/api/players/{{PlayerID}}/subscriptions"
+          },
+          "response": []
+        },
+        {
+          "name": "ShouldDeleteEvent Copy",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": {
+                "password": "admin",
+                "username": "admin"
+              }
+            },
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"userId\":\"\",\r\n    \"eventId\":\"{{EventID}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "http://localhost:8080/api/organizers/{{OrganizerID}}/event"
+          },
+          "response": []
+        },
+        {
+          "name": "Logout",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "pm.collectionVariables.unset('PlayerID');"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "http://localhost:8080/logout"
+          },
+          "response": []
+        }
+      ],
+      "auth": {
+        "type": "basic",
+        "basic": {
+          "password": "admin",
+          "username": "admin"
+        }
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              ""
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              ""
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "CreateAndPlayerAndSubscriptionAndCheckAndLOGOUT",
+      "item": [
+        {
+          "name": "AddPlayer",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(201);\r",
+                  "});\r",
+                  "pm.test(\"Returned ID is not NULL\", function () {\r",
+                  "    var jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.userId).to.length > 0;\r",
+                  "    pm.collectionVariables.set('PlayerID',jsonData.userId);\r",
+                  "   \r",
+                  "});\r",
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": {
+                "password": "admin",
+                "username": "admin"
+              }
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"userPassword\":\"123\",\r\n    \"userLogin\":\"playerTest\",\r\n    \"userEmail\": \"player{{$randomInt}}@player.com\",\r\n    \"userCity\": \"PlayerCity\",\r\n    \"userStreet\": \"PlayerStreet\",\r\n    \"userCountry\": \"Poland CHANGED\",\r\n    \"userZipCode\": \"00000\",\r\n    \"playerFirstName\": \"Test\",\r\n    \"playerLastName\": \"Player\",\r\n    \"playerDOB\": \"1990-01-01\",\r\n    \"playerTeamName\": \"\",\r\n    \"playerWeight\": \"0.0\",\r\n    \"playerAdditionalInfo\": \"CHANGED\",\r\n    \"playerLicence\": \"\",\r\n    \"playerPhone\": \"123123123\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "http://localhost:8080/api/players/"
+          },
+          "response": []
+        },
+        {
+          "name": "CheckPlayerData",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "pm.test(\"Your test name\", function () {\r",
+                  "    var jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.name).to.eql(\"Test Player\");\r",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "http://localhost:8080/api/players/{{PlayerID}}"
+          },
+          "response": []
+        },
+        {
+          "name": "AddOrganizer",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(201);\r",
+                  "});\r",
+                  "pm.test(\"Returned ID is not NULL\", function () {\r",
+                  "    var jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.userId).to.length > 0;\r",
+                  "    pm.collectionVariables.set('OrganizerID',jsonData.userId);\r",
+                  "   \r",
+                  "});\r",
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": {
+                "password": "admin",
+                "username": "admin"
+              }
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"userPassword\":\"123\",\r\n    \"userLogin\":\"organizerTest\",\r\n    \"userEmail\": \"organizer{{$randomInt}}@player.com\",\r\n    \"userCity\": \"PlayerCity\",\r\n    \"userStreet\": \"PlayerStreet\",\r\n    \"userCountry\": \"Poland CHANGED\",\r\n    \"userZipCode\": \"00000\",\r\n    \"organizerName\":\"Organizer\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "http://localhost:8080/api/organizers/"
+          },
+          "response": []
+        },
+        {
+          "name": "OrganizerAddEvent",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(201);\r",
+                  "});\r",
+                  "pm.test(\"Returned ID is not NULL\", function () {\r",
+                  "    var jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.userId).to.length > 0;\r",
+                  "    pm.collectionVariables.set('EventID',jsonData.eventId);\r",
+                  "   \r",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": {
+                "username": "organizerTest",
+                "password": "123"
+              }
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"eventTitle\":\"TestEvent{{$randomInt}}\",\r\n    \"eventDate\":\"2022-08-04T10:11:30\",\r\n    \"eventPlayerLimit\":\"10\",\r\n    \"eventFee\":\"1\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "http://localhost:8080/api/organizers/{{OrganizerID}}/event"
+          },
+          "response": []
+        },
+        {
+          "name": "AddSubscriptionToPlayer",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(201);\r",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": {
+                "password": "123",
+                "username": "playerTest"
+              }
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"subscriptionPaymentDone\":\"false\",\r\n    \"subscriptionApproved\":\"false\",\r\n    \"eventId\":\"{{EventID}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "http://localhost:8080/api/players/{{PlayerID}}/subscriptions"
+          },
+          "response": []
+        },
+        {
+          "name": "Logout",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "pm.collectionVariables.unset('PlayerID');"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "http://localhost:8080/logout"
+          },
+          "response": []
+        }
+      ],
+      "auth": {
+        "type": "basic",
+        "basic": {
+          "password": "admin",
+          "username": "admin"
+        }
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              ""
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              ""
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "CreateOrganizerLoginAndAddEventAndCheck",
+      "item": [
+        {
+          "name": "AddOrganizer",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(201);\r",
+                  "});\r",
+                  "pm.test(\"Returned ID is not NULL\", function () {\r",
+                  "    var jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.userId).to.length > 0;\r",
+                  "    pm.collectionVariables.set('OrganizerID',jsonData.userId);\r",
+                  "   \r",
+                  "});\r",
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": {
+                "password": "admin",
+                "username": "admin"
+              }
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"userPassword\":\"123\",\r\n    \"userLogin\":\"organizerTest\",\r\n    \"userEmail\": \"organizer{{$randomInt}}@player.com\",\r\n    \"userCity\": \"PlayerCity\",\r\n    \"userStreet\": \"PlayerStreet\",\r\n    \"userCountry\": \"Poland CHANGED\",\r\n    \"userZipCode\": \"00000\",\r\n    \"organizerName\":\"Organizer\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "http://localhost:8080/api/organizers/"
+          },
+          "response": []
+        },
+        {
+          "name": "OrganizerAddEvent",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(201);\r",
+                  "});\r",
+                  "pm.test(\"Returned ID is not NULL\", function () {\r",
+                  "    var jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.userId).to.length > 0;\r",
+                  "    pm.collectionVariables.set('EventID',jsonData.eventId);\r",
+                  "   \r",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": {
+                "username": "organizerTest",
+                "password": "123"
+              }
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"eventTitle\":\"TestEvent\",\r\n    \"eventDate\":\"2022-08-04T10:11:30\",\r\n    \"eventPlayerLimit\":\"10\",\r\n    \"eventFee\":\"1\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "http://localhost:8080/api/organizers/{{OrganizerID}}/event"
+          },
+          "response": []
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "http://localhost:8080/logout"
+          },
+          "response": []
+        },
+        {
+          "name": "CheckEventExistsWithTitle",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "pm.test(\"Returned ID is not NULL\", function () {\r",
+                  "    var jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.title).to.eql(\"TestEvent\");\r",
+                  "});\r",
+                  " pm.collectionVariables.unset('OrganizerID');\r",
+                  " pm.collectionVariables.unset('EventId');"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "http://localhost:8080/api/events/{{EventID}}"
+          },
+          "response": []
+        }
+      ],
+      "auth": {
+        "type": "noauth"
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              ""
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              ""
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "CreateOrganizerLoginAndAddEventCheckDeleteAndCheck",
+      "item": [
+        {
+          "name": "AddOrganizer",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(201);\r",
+                  "});\r",
+                  "pm.test(\"Returned ID is not NULL\", function () {\r",
+                  "    var jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.userId).to.length > 0;\r",
+                  "    pm.collectionVariables.set('OrganizerID',jsonData.userId);\r",
+                  "   \r",
+                  "});\r",
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": {
+                "password": "admin",
+                "username": "admin"
+              }
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"userPassword\":\"123\",\r\n    \"userLogin\":\"organizerTest\",\r\n    \"userEmail\": \"organizer{{$randomInt}}@player.com\",\r\n    \"userCity\": \"PlayerCity\",\r\n    \"userStreet\": \"PlayerStreet\",\r\n    \"userCountry\": \"Poland CHANGED\",\r\n    \"userZipCode\": \"00000\",\r\n    \"organizerName\":\"Organizer\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "http://localhost:8080/api/organizers/"
+          },
+          "response": []
+        },
+        {
+          "name": "OrganizerAddEvent",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(201);\r",
+                  "});\r",
+                  "pm.test(\"Returned ID is not NULL\", function () {\r",
+                  "    var jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.userId).to.length > 0;\r",
+                  "    pm.collectionVariables.set('EventID',jsonData.eventId);\r",
+                  "   \r",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": {
+                "username": "organizerTest",
+                "password": "123"
+              }
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"eventTitle\":\"TestEvent\",\r\n    \"eventDate\":\"2022-08-04T10:11:30\",\r\n    \"eventPlayerLimit\":\"10\",\r\n    \"eventFee\":\"1\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "http://localhost:8080/api/organizers/{{OrganizerID}}/event"
+          },
+          "response": []
+        },
+        {
+          "name": "CheckEventExistsWithTitle",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {\r",
+                  "    pm.response.to.have.status(200);\r",
+                  "});\r",
+                  "pm.test(\"Returned title is TestEvent\", function () {\r",
+                  "    var jsonData = pm.response.json();\r",
+                  "    pm.expect(jsonData.title).to.eql(\"TestEvent\");\r",
+                  "});\r",
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "http://localhost:8080/api/events/{{EventID}}"
+          },
+          "response": []
+        },
+        {
+          "name": "ShouldDeleteEvent",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "pm.sendRequest(\"http://localhost:8080/logout\");"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": {
+                "username": "organizerTest",
+                "password": "123"
+              }
+            },
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"userId\":\"\",\r\n    \"eventId\":\"{{EventID}}\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "http://localhost:8080/api/organizers/{{OrganizerID}}/event"
+          },
+          "response": []
+        },
+        {
+          "name": "CheckEventNOTExistsWithTitle",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status code is 404\", function () {\r",
+                  "    pm.response.to.have.status(404);\r",
+                  "});\r",
+                  " pm.collectionVariables.unset('OrganizerID');\r",
+                  " pm.collectionVariables.unset('EventId');"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "http://localhost:8080/api/events/{{EventID}}"
+          },
+          "response": []
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "http://localhost:8080/logout"
+          },
+          "response": []
+        }
+      ],
+      "auth": {
+        "type": "noauth"
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              ""
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              ""
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "LoginOrganizer",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Response time is less than 200ms\", function () {\r",
+              "    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "basic",
+          "basic": {
+            "username": "Organizer",
+            "password": "123"
+          }
+        },
+        "method": "GET",
+        "header": [],
+        "url": "http://localhost:8080/login"
+      },
+      "response": []
+    },
+    {
+      "name": "ShouldReturnPlayers",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "pm.sendRequest(\"http://localhost:8080/logout\");"
+            ],
+            "type": "text/javascript"
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "pm.sendRequest(\"http://localhost:8080/logout\");"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "basic",
+          "basic": {
+            "username": "Organizer",
+            "password": "123"
+          }
+        },
+        "method": "GET",
+        "header": [],
+        "url": "http://localhost:8080/api/players/"
+      },
+      "response": []
+    },
+    {
+      "name": "ShouldNotReturnPlayers",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 401\", function () {\r",
+              "    pm.response.to.have.status(401);\r",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "pm.sendRequest(\"http://localhost:8080/logout\");"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [],
+        "url": "http://localhost:8080/api/players/"
+      },
+      "response": []
+    },
+    {
+      "name": "ShoudlReturnOraganizers",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "pm.sendRequest(\"http://localhost:8080/logout\");"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "basic",
+          "basic": {
+            "username": "Organizer",
+            "password": "123"
+          }
+        },
+        "method": "GET",
+        "header": [],
+        "url": "http://localhost:8080/api/organizers/"
+      },
+      "response": []
+    },
+    {
+      "name": "ShouldReturnEvents",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "pm.sendRequest(\"http://localhost:8080/logout\");"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [],
+        "url": "http://localhost:8080/api/events/"
+      },
+      "response": []
+    },
+    {
+      "name": "ShouldLogout",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "http://localhost:8080/logout"
+      },
+      "response": []
+    },
+    {
+      "name": "OrganizerLogin",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Response time is less than 200ms\", function () {\r",
+              "    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "basic",
+          "basic": {
+            "username": "Organizer",
+            "password": "123"
+          }
+        },
+        "method": "GET",
+        "header": [],
+        "url": "http://localhost:8080/login"
+      },
+      "response": []
+    },
+    {
+      "name": "Logout",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "http://localhost:8080/logout"
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "responseBody",
+      "value": ""
+    },
+    {
+      "key": "EventID",
+      "value": ""
+    },
+    {
+      "key": "OrganizerID",
+      "value": ""
+    },
+    {
+      "key": "SubscriptionID",
+      "value": ""
+    }
+  ]
+}

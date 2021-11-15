@@ -11,11 +11,9 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 import sportEvents.service.PlayerSubscriptionService;
+import sportEvents.service.UserMaintenanceService;
 import sportEvents.service.UserService;
-import sportEvents.service.dto.RegisterEventForm;
-import sportEvents.service.dto.RegisterOrganizerForm;
-import sportEvents.service.dto.RegisterPlayerForm;
-import sportEvents.service.dto.RegisterSubscriptionForm;
+import sportEvents.service.dto.*;
 import sportEvents.service.OrganizerEventService;
 
 
@@ -27,6 +25,8 @@ public class SportEventsApplication extends SpringBootServletInitializer {
 
     @Autowired
     private UserService service;
+    @Autowired
+    private UserMaintenanceService userMaintenanceService;
     @Autowired
     EventsRepository eventsRepository;
     @Autowired
@@ -53,26 +53,10 @@ public class SportEventsApplication extends SpringBootServletInitializer {
                     "SportEvent"
             );
             final var registeredOrganizerId = service.registerOrganizer(admin);
-            service.updateUserRoles(registeredOrganizerId.getUserId(),"ROLE_ADMIN");
+            userMaintenanceService.activateUser(registeredOrganizerId.getUserId());
+            service.updateUserRoles(registeredOrganizerId.getUserId(), "ROLE_ADMIN");
         };
     }
-
-//    @Bean TODO
-//    InitializingBean userData() {
-//        return () -> {
-//            final var user = new RegisterOrganizerForm("user",
-//                    "user",
-//                    "user@user.com",
-//                    "",
-//                    "",
-//                    "",
-//                    "",
-//                    "SportEvent"
-//            );
-//            final var registeredOrganizerId = service.registerOrganizer(user);
-//            service.updateUserRoles(registeredOrganizerId.getUserId(),"ROLE_USER");
-//        };
-//    }
 
     @Bean
     @Profile("dev")
@@ -150,8 +134,12 @@ public class SportEventsApplication extends SpringBootServletInitializer {
                             registeredEventId.getEventId()));
 
             User user = userRepository.getOrganizerByUserId(registeredOrganizerId1.getUserId());
-            user.setUserRoles(Arrays.asList("ROLE_ADMIN","ROLE_USER"));
+            user.setUserRoles(Arrays.asList("ROLE_ADMIN", "ROLE_USER"));
             userRepository.save(user);
+
+
+//            playerSubscriptionService.removeSubscription(new RemoveSubscriptionForm(registeredUserId.getUserId(),
+//                    eventsRepository.getById(registeredEventId.getEventId())));
 
         };
     }

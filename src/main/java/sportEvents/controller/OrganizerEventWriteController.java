@@ -22,14 +22,21 @@ public class OrganizerEventWriteController {
     @NonNull UserService userService;
     @NonNull OrganizerEventService organizerEventService;
 
+    @GetMapping("/{userId}/event")
+    String infoText(){
+        return "AddEvent";
+    }
+
     @PostMapping("/{userId}/event")
-    ResponseEntity<RegisteredEventId> registerEvent(@RequestBody RegisterEventForm form, @PathVariable UUID userId){
+    ResponseEntity<RegisteredEventId> registerEvent(@RequestBody RegisterEventForm form,
+                                                    @PathVariable UUID userId){
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(organizerEventService.addEventRest(form,userId));
     }
     @DeleteMapping("/{userId}/event")
-    ResponseEntity<DeletedEventId> removeSubscription(@RequestBody RemoveEventForm form, @PathVariable UUID userId){
+    ResponseEntity<DeletedEventId> removeSubscription(@RequestBody RemoveEventForm form,
+                                                      @PathVariable UUID userId){
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(organizerEventService.removeEventRest(form,userId));
