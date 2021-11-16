@@ -7,8 +7,9 @@ import java.util.UUID;
 
 @Value
 public class DeletedSubscriptionId {
-
-    @NonNull
-    UUID userId;
-    UUID subscriptionId;
+        @NonNull
+        UUID userId;
+        UUID subscriptionId;
 }
+
+

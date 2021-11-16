@@ -1,7 +1,9 @@
 package sportEvents.service.exception;
 
-public class EmailAlreadyExistException extends BusinessServiceException{
-    public EmailAlreadyExistException(String message) {
+import lombok.NonNull;
+
+public class EmailAlreadyExistException extends BusinessServiceException {
+    public EmailAlreadyExistException(@NonNull String message) {
         super(message);
     }
 }

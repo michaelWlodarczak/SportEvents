@@ -2,8 +2,8 @@ package sportEvents.entity;
 
 import lombok.*;
 import org.hibernate.annotations.Type;
-import sportEvents.service.dto.UserView;
 import sportEvents.entity.enums.UserType;
+import sportEvents.service.dto.UserView;
 
 import javax.persistence.*;
 import java.util.*;
@@ -55,6 +55,7 @@ public abstract class User {
 
     public abstract String getName();
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -79,4 +80,7 @@ public abstract class User {
                 getUserType(),
                 isUserActive());
     }
+
 }
+
+

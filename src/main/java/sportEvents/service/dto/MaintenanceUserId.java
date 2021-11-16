@@ -7,7 +7,6 @@ import java.util.UUID;
 
 @Value
 public class MaintenanceUserId {
-
     @NonNull
     UUID userId;
 }

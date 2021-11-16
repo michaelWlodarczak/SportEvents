@@ -33,5 +33,4 @@ public class ConfirmationToken {
     }
 
     // getters and setters
-
 }

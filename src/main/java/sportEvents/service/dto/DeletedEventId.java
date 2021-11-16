@@ -7,7 +7,7 @@ import java.util.UUID;
 
 @Value
 public class DeletedEventId {
-    @NonNull
     UUID userId;
+    @NonNull
     UUID eventId;
 }

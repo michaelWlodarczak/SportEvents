@@ -1,7 +1,7 @@
 package sportEvents.entity.repositories;
 
-import sportEvents.entity.Subscription;
 import org.springframework.data.jpa.repository.JpaRepository;
+import sportEvents.entity.Subscription;
 
 import java.util.UUID;
 

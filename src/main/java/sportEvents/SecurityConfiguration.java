@@ -8,13 +8,11 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import sportEvents.service.UserSecurity;
 
 @Configuration
 @EnableWebSecurity
@@ -34,7 +32,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http./*sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).
+
+        http.cors().and()./*sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).
                 and().*/
                 authorizeRequests()
                 .antMatchers("/api/players/{userId}/**")
@@ -45,6 +44,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/organizers/**").hasAnyRole("ADMIN")
                 .antMatchers("/api/admin/**").hasAnyRole("ADMIN")
                 .antMatchers("/api/events/**").permitAll()
+                .antMatchers("/api/register/**").permitAll()
                 .antMatchers("/h2-console/**").permitAll()
                 .and()
                 .formLogin()
@@ -54,8 +54,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .logout()
                 .permitAll()
                 .and().httpBasic() //TODO DISABLE FOR PRODUCTION - POSTMAN
-                .and()
-                .csrf().disable(); //TODO DISABLE FOR PRODUCTION - POSTMAN
+                .and().headers().frameOptions().disable()
+                .and().csrf().disable(); //TODO DISABLE FOR PRODUCTION - POSTMAN
+
     }
 
     @Bean

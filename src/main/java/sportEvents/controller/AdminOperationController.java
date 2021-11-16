@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sportEvents.service.*;
+import sportEvents.service.dto.*;
+import sportEvents.service.*;
 import sportEvents.service.dto.EventView;
 import sportEvents.service.dto.MaintenanceUserId;
 import sportEvents.service.dto.UserView;
@@ -34,7 +36,6 @@ public class AdminOperationController {
     List<UserView> getAllUsers() {
         return userQuery.listAllUsers();
     }
-
     @GetMapping("/events")
     List<EventView> getEvents() {
         return eventQuery.listEvents();

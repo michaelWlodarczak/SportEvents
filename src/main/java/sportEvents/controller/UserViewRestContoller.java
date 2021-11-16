@@ -39,7 +39,7 @@ public class UserViewRestContoller {
     }
 
     @GetMapping(value="organizers/{userId}",produces = MediaType.APPLICATION_JSON_VALUE)
-    OrganizerDetails  getOrganizerDetails(@PathVariable UUID userId){
+    OrganizerDetails getOrganizerDetails(@PathVariable UUID userId){
         return query.getOrganizerDetails(userId);
     }
 }

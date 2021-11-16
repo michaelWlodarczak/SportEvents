@@ -16,12 +16,12 @@ import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "events")
+
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Setter
 @EqualsAndHashCode
 public class Event {
-
     @Id
     @Type(type="uuid-char")
     private UUID eventId;
@@ -48,9 +48,10 @@ public class Event {
         this.organizer = organizer;
         this.eventSubscriptions = new ArrayList<>();
     }
-
     public void addSubscription(Subscription subscription) {
+
         if (subscription != null) {
+
             if (!eventSubscriptions.contains(subscription)) {
                 eventSubscriptions.add(subscription);
             } else {
@@ -58,9 +59,10 @@ public class Event {
             }
         }
     }
-
     public void removeSubscription(Subscription subscription) {
+
         if (subscription != null) {
+
             if (eventSubscriptions.contains(subscription)) {
                 eventSubscriptions.remove(subscription);
             } else {
@@ -86,5 +88,6 @@ public class Event {
                 getEventPlayerLimit(),
                 getEventFee(),
                 getEventSubscriptions().stream().map(Subscription::toEventView).collect(Collectors.toList()));
+
     }
 }

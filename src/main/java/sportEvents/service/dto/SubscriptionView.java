@@ -8,9 +8,11 @@ import lombok.Value;
 public class SubscriptionView {
     String subscriptionId;
     String subscriptionPaymentDone;
-    String dateOfPayment;
+    String subscriptionDate;
     String subscriptionApproved;
     String eventTitle;
     String eventDate;
     String eventId;
+
+
 }

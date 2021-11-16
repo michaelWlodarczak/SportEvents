@@ -3,17 +3,18 @@ package sportEvents.service.dto;
 import lombok.NonNull;
 import lombok.Value;
 
+import java.time.LocalDate;
+
 @Value
 public class RegisterPlayerForm {
-
-    @NonNull
-    String userLogin;
     @NonNull
     String userPassword;
     @NonNull
+    String userLogin;
+    @NonNull
     String userEmail;
-    String userStreet;
     String userCity;
+    String userStreet;
     String userCountry;
     String userZipCode;
     @NonNull

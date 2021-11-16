@@ -6,4 +6,3 @@ import sportEvents.entity.ConfirmationToken;
 public interface ConfirmationTokenRepository extends JpaRepository<ConfirmationToken, String> {
     ConfirmationToken findByConfirmationToken(String confirmationToken);
 }
-

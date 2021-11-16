@@ -1,22 +1,23 @@
 package sportEvents.entity;
 
 import lombok.*;
+import org.hibernate.annotations.Type;
 import sportEvents.service.dto.SubscriptionEventView;
 import sportEvents.service.dto.SubscriptionView;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.UUID;
-
 @Entity
 @Table(name = "subscriptions")
-@NoArgsConstructor(access = AccessLevel.PROTECTED) //  PRIVATE ?? for hibernate
+@NoArgsConstructor(access = AccessLevel.PRIVATE) // for hibernate
 @Getter
 @Setter
 @EqualsAndHashCode
-public class Subscription {
 
+public class Subscription {
     @Id
+    @Type(type="uuid-char")
     private UUID subscriptionId;
     private boolean subscriptionPaymentDone;
     private LocalDateTime subscriptionDate;
@@ -50,7 +51,6 @@ public class Subscription {
                 event.getEventDate().toString(),
                 event.getEventId().toString());
     }
-
     public SubscriptionEventView toEventView(){
         return new SubscriptionEventView( subscriptionId.toString(),
                 Boolean.toString(subscriptionPaymentDone),

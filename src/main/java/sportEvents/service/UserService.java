@@ -1,45 +1,43 @@
 package sportEvents.service;
 
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import sportEvents.entity.Organizer;
 import sportEvents.entity.Player;
 import sportEvents.entity.User;
 import sportEvents.entity.repositories.UserRepository;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-
-import org.springframework.stereotype.Service;
 import sportEvents.service.dto.RegisterOrganizerForm;
 import sportEvents.service.dto.RegisterPlayerForm;
 import sportEvents.service.dto.RegisteredUserId;
 import sportEvents.service.exception.EmailAlreadyExistException;
 import sportEvents.service.exception.UserNotExistException;
 
-import javax.transaction.Transactional;
-
 import java.util.List;
 import java.util.UUID;
 
-@Service // TODO sprawdzic adnotacje
-@Transactional // TODO sprawdzic adnotacje
+
+@Service
+@Transactional
 @RequiredArgsConstructor
 public class UserService {
     @NonNull
     private final UserRepository userRepository;
 
-    public RegisteredUserId updateUserRoles(UUID userId, String userRole) throws UserNotExistException {
+    public RegisteredUserId updateUserRoles(UUID userId, String userRoles) throws UserNotExistException {
         User user = userRepository.getById(userId);
         if (user != null) {
-            List<String> roles = List.of(userRole.split(","));
+            List<String> roles = List.of(userRoles.split(","));
             user.setUserRoles(roles);
             //userRepository.save(user);
             return new RegisteredUserId(user.getUserId());
         } else {
-            throw new UserNotExistException("User not exists");
+            throw new UserNotExistException("User not exists !");
         }
     }
-
     public RegisteredUserId registerPlayer(@NonNull RegisterPlayerForm form) throws EmailAlreadyExistException {
-        if (userRepository.emailExists(form.getUserEmail(), null) || userRepository.loginExists(form.getUserLogin(), null)) {
+        if (userRepository.emailExists(form.getUserEmail(),null) || userRepository.loginExists(form.getUserLogin(),null)) {
             throw new EmailAlreadyExistException("Account with email or name exists");
         }
         Player player = Player.createWith(form);
@@ -47,8 +45,9 @@ public class UserService {
         return new RegisteredUserId(player.getUserId());
     }
 
+
     public RegisteredUserId updatePlayer(@NonNull RegisterPlayerForm form, UUID userId) {
-        if (userRepository.emailExists(form.getUserEmail(), userId) || userRepository.loginExists(form.getUserLogin(), userId)) {
+        if (userRepository.emailExists(form.getUserEmail(),userId) || userRepository.loginExists(form.getUserLogin(),userId)) {
             throw new EmailAlreadyExistException("Account with email or name exists");
         }
         Player player = userRepository.getPlayerByUserId(userId);
@@ -58,7 +57,7 @@ public class UserService {
     }
 
     public RegisteredUserId registerOrganizer(@NonNull RegisterOrganizerForm form) throws EmailAlreadyExistException {
-        if (userRepository.emailExists(form.getUserEmail(), null) || userRepository.loginExists(form.getUserLogin(), null)) {
+        if (userRepository.emailExists(form.getUserEmail(),null) || userRepository.loginExists(form.getUserLogin(),null)) {
             throw new EmailAlreadyExistException("Account with email or name exists");
         }
         Organizer organizer = Organizer.createWith(form);
@@ -67,7 +66,7 @@ public class UserService {
     }
 
     public RegisteredUserId updateOrganizer(@NonNull RegisterOrganizerForm form, UUID userId) {
-        if (userRepository.emailExists(form.getUserEmail(), userId) || userRepository.loginExists(form.getUserLogin(), userId)) {
+        if (userRepository.emailExists(form.getUserEmail(),userId) || userRepository.loginExists(form.getUserLogin(),userId)) {
             throw new EmailAlreadyExistException("Account with email or name exists");
         }
         Organizer organizer = userRepository.getOrganizerByUserId(userId);
@@ -75,4 +74,5 @@ public class UserService {
         userRepository.save(organizer);
         return new RegisteredUserId(organizer.getUserId());
     }
+
 }

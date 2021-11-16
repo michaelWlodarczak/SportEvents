@@ -4,15 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 import sportEvents.entity.repositories.UserRepository;
 
+import javax.transaction.Transactional;
 import java.util.UUID;
 
 @Component("userSecurity")
 @Transactional
 public class UserSecurity {
-
     @Autowired
     UserRepository userRepository;
 
@@ -20,8 +19,8 @@ public class UserSecurity {
         if (authentication.getPrincipal() instanceof UserDetails) {
             SecurityUserDetails userDetails = (SecurityUserDetails) authentication.getPrincipal();
             System.out.println(userRepository.getById(userDetails.getUserId()).getUserLogin());
-            return userId.equals(userRepository.getById(userDetails.getUserId()).getUserId());
-        }
+           return userId.equals(userRepository.getById(userDetails.getUserId()).getUserId());
+           }
         return false;
     }
 }

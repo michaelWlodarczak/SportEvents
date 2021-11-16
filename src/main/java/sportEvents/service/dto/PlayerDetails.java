@@ -1,8 +1,8 @@
 package sportEvents.service.dto;
 
-import sportEvents.entity.enums.UserType;
 import lombok.Getter;
 import lombok.Value;
+import sportEvents.entity.enums.UserType;
 
 import java.util.List;
 import java.util.UUID;
@@ -13,8 +13,8 @@ public class PlayerDetails {
     String name;
     String email;
     UserType type;
-    String userStreet;
     String userCity;
+    String userStreet;
     String userCountry;
     String userZipCode;
     List<SubscriptionView> playerSubscriptions;
@@ -24,6 +24,6 @@ public class PlayerDetails {
     String playerTeamName;
     String playerWeight;
     String playerAdditionalInfo;
-    String playerLicense;
+    String playerLicence;
     String playerPhone;
 }

@@ -10,14 +10,11 @@ import java.util.UUID;
 @Getter
 @Value
 public class EventDetails {
-
     UUID eventId;
     UUID organizerId;
-    String title;
+    String Title;
     LocalDateTime eventDate;
     int eventPlayerLimit;
     double eventFee;
     List<SubscriptionEventView> playerSubscriptions;
-
-
 }

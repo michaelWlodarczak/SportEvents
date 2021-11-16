@@ -7,17 +7,16 @@ import lombok.Value;
 public class RegisterOrganizerForm {
 
     @NonNull
-    String userLogin;
-    @NonNull
     String userPassword;
     @NonNull
+    String userLogin;
+    @NonNull
     String userEmail;
-    String userStreet;
     String userCity;
+    String userStreet;
     String userCountry;
     String userZipCode;
     @NonNull
     String organizerName;
-
 
 }

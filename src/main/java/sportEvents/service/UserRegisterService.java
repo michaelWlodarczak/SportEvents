@@ -19,23 +19,14 @@ import sportEvents.service.exception.TokenValidationException;
 @Service
 @Transactional
 @NoArgsConstructor
-public class UserRegisterService {
-
-    @Value("http://localhost")
+public class UserRegisterService  {
+    @Value("${server.url}")
     private String serverUrl;
     @Value("${server.port}")
     String serverPort;
     @Value("${email.from}")
     String emailFrom;
 
-    /*
-    Z wykorzystaniem adnotacji @Value można wyczytywać wartości zapisane w pliku konfiguracyjnym.
-    Domyślny plik konfiguracyjny dla SpringBoot jest automatycznie tworzony i nazywa się
-    application.properties.
-
-    This annotation can be used for injecting values into fields in Spring-managed beans,
-    and it can be applied at the field or constructor/method parameter level.
-     */
 
     @Autowired
     UserRepository userRepository;
@@ -45,6 +36,7 @@ public class UserRegisterService {
     ConfirmationTokenRepository confirmationTokenRepository;
     @Autowired
     EmailSenderService emailSenderService;
+
 
     public void sendVerificationEmail(User user, ConfirmationToken confirmationToken) {
         String text = "To confirm your account, please click here : "
@@ -94,6 +86,5 @@ public class UserRegisterService {
             throw new TokenValidationException("Token not Valid !");
         }
     }
-
 
 }

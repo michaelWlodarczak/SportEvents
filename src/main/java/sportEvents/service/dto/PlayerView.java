@@ -1,7 +1,7 @@
 package sportEvents.service.dto;
 
-import sportEvents.entity.enums.UserType;
 import lombok.Value;
+import sportEvents.entity.enums.UserType;
 
 import java.util.UUID;
 
@@ -11,6 +11,6 @@ public class PlayerView {
     String name;
     String email;
     UserType type;
-    int subscriptionCount;
+    int subscriptionsCount;
     boolean active;
 }

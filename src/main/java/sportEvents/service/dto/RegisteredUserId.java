@@ -5,8 +5,9 @@ import lombok.Value;
 
 import java.util.UUID;
 
-@Value  //adnotacja zalatwia gettery, settery, equals i hashcode
+@Value
 public class RegisteredUserId {
+
     @NonNull
     UUID userId;
 }

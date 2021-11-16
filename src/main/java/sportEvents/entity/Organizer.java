@@ -6,7 +6,6 @@ import sportEvents.service.dto.OrganizerView;
 import sportEvents.service.dto.RegisterOrganizerForm;
 import sportEvents.service.exception.EventException;
 
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +19,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Organizer extends User {
     private String organizerName;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "organizer", orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "organizer", orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Event> organizerEvents;
 
     public Organizer(String userPassword,
@@ -34,25 +33,6 @@ public class Organizer extends User {
         super(userPassword, userLogin, userEmail, userCity, userStreet, userCountry, userZipCode);
         this.organizerName = organizerName;
         this.organizerEvents = new ArrayList<>();
-    }
-
-    @Override
-    public String getName() {
-        return organizerName;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-        Organizer organizer = (Organizer) o;
-        return organizerName.equals(organizer.organizerName);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), organizerName);
     }
 
     public static Organizer createWith(RegisterOrganizerForm form) {
@@ -69,7 +49,7 @@ public class Organizer extends User {
     public static Organizer updateOrganizer(RegisterOrganizerForm form, Organizer organizer) {
         organizer.setUserPassword(form.getUserPassword());
         organizer.setUserLogin(form.getUserLogin());
-        //organizer.setUserEmail(form.getUserEmail()),  Email?!
+        //organizer.setUserEmail(form.getUserEmail()),
         organizer.setUserCity(form.getUserCity());
         organizer.setUserStreet(form.getUserStreet());
         organizer.setUserCountry(form.getUserCountry());
@@ -96,6 +76,26 @@ public class Organizer extends User {
                 throw new EventException("Event for this organizer not exist");
             }
         }
+    }
+
+
+    @Override
+    public String getName() {
+        return organizerName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Organizer organizer = (Organizer) o;
+        return organizerName.equals(organizer.organizerName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), organizerName);
     }
 
     public OrganizerView toOrganizerView() {

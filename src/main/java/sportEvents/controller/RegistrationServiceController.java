@@ -15,7 +15,6 @@ import sportEvents.service.dto.RegisteredUserId;
 @RequestMapping("/api")
 @RequiredArgsConstructor
 public class RegistrationServiceController {
-
     @NonNull
     private final UserRegisterService userRegisterService;
     @NonNull
@@ -40,6 +39,5 @@ public class RegistrationServiceController {
                 .status(HttpStatus.OK)
                 .body(userRegisterService.verifyUser(tokenId));
     }
-
 
 }

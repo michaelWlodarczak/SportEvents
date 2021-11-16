@@ -6,7 +6,6 @@ import sportEvents.service.dto.PlayerView;
 import sportEvents.service.dto.RegisterPlayerForm;
 import sportEvents.service.exception.SubscriptionException;
 
-
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -21,7 +20,6 @@ import java.util.stream.Collectors;
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Player extends User {
-
     private String playerFirstName;
     private String playerLastName;
     private LocalDate playerDOB;
@@ -31,7 +29,8 @@ public class Player extends User {
     private String playerLicence;
     private String playerPhone;
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy="player",orphanRemoval = true, fetch = FetchType.LAZY) // TODO sprawdzic to
+
+    @OneToMany(cascade = CascadeType.ALL,mappedBy="player",orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Subscription> playerSubscriptions;
 
     public Player(String userPassword,
@@ -59,7 +58,50 @@ public class Player extends User {
         this.playerLicence = playerLicence;
         this.playerPhone = playerPhone;
         this.playerSubscriptions = new ArrayList<>();
+
     }
+
+
+  public static Player createWith(RegisterPlayerForm form) {
+   DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+    return new  Player(form.getUserPassword(),
+            form.getUserLogin(),
+            form.getUserEmail(),
+            form.getUserCity(),
+            form.getUserStreet(),
+            form.getUserCountry(),
+            form.getUserZipCode(),
+            form.getPlayerFirstName(),
+            form.getPlayerLastName(),
+            LocalDate.parse(form.getPlayerDOB(),formatter),
+            form.getPlayerTeamName(),
+            Double.valueOf(form.getPlayerWeight()),
+            form.getPlayerAdditionalInfo(),
+            form.getPlayerLicence(),
+            form.getPlayerPhone());
+    }
+
+    public static Player updatePlayer(RegisterPlayerForm form, Player player){
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                player.setUserPassword(form.getUserPassword());
+        //player.setUserLogin(form.getUserLogin());
+                player.setUserEmail(form.getUserEmail());
+                player.setUserCity(form.getUserCity());
+                player.setUserStreet(form.getUserStreet());
+                player.setUserCountry(form.getUserCountry());
+                player.setUserZipCode(form.getUserZipCode());
+                player.setPlayerFirstName(form.getPlayerFirstName());
+                player.setPlayerLastName(form.getPlayerLastName());
+                player.setPlayerDOB(LocalDate.parse(form.getPlayerDOB(),formatter));
+                player.setPlayerTeamName(form.getPlayerTeamName());
+                player.setPlayerWeight(Double.parseDouble(form.getPlayerWeight()));
+                player.setPlayerAdditionalInfo(form.getPlayerAdditionalInfo());
+                player.setPlayerLicence(form.getPlayerLicence());
+                player.setPlayerPhone(form.getPlayerPhone());
+                return player;
+    }
+
 
     @Override
     public String getName() {
@@ -83,54 +125,14 @@ public class Player extends User {
         return Objects.hash(super.hashCode(), playerFirstName, playerLastName, playerDOB, playerPhone);
     }
 
-    public static Player createWith(RegisterPlayerForm form) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
-        return new  Player(form.getUserPassword(),
-                form.getUserLogin(),
-                form.getUserEmail(),
-                form.getUserCity(),
-                form.getUserStreet(),
-                form.getUserCountry(),
-                form.getUserZipCode(),
-                form.getPlayerFirstName(),
-                form.getPlayerLastName(),
-                LocalDate.parse(form.getPlayerDOB(),formatter),
-                form.getPlayerTeamName(),
-                Double.valueOf(form.getPlayerWeight()),
-                form.getPlayerAdditionalInfo(),
-                form.getPlayerLicence(),
-                form.getPlayerPhone());
-    }
-
-    public static Player updatePlayer(RegisterPlayerForm form, Player player){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        player.setUserPassword(form.getUserPassword());
-        //player.setUserLogin(form.getUserLogin());
-        player.setUserEmail(form.getUserEmail());
-        player.setUserCity(form.getUserCity());
-        player.setUserStreet(form.getUserStreet());
-        player.setUserCountry(form.getUserCountry());
-        player.setUserZipCode(form.getUserZipCode());
-        player.setPlayerFirstName(form.getPlayerFirstName());
-        player.setPlayerLastName(form.getPlayerLastName());
-        player.setPlayerDOB(LocalDate.parse(form.getPlayerDOB(),formatter));
-        player.setPlayerTeamName(form.getPlayerTeamName());
-        player.setPlayerWeight(Double.parseDouble(form.getPlayerWeight()));
-        player.setPlayerAdditionalInfo(form.getPlayerAdditionalInfo());
-        player.setPlayerLicence(form.getPlayerLicence());
-        player.setPlayerPhone(form.getPlayerPhone());
-        return player;
-    }
-
     public void addSubscription(Subscription subscription){
         if(subscription != null) {
-            if( !playerSubscriptions.contains(subscription)){
-                playerSubscriptions.add(subscription);
-            } else {
-                throw new SubscriptionException("Subscription for this event already exist for this Player");
+                if( !playerSubscriptions.contains(subscription)){
+                    playerSubscriptions.add(subscription);
+                } else {
+                    throw new SubscriptionException("Subscription for this event already exist for this Player");
+                }
             }
-        }
     }
     public void removeSubscription(Event event){
 
@@ -160,7 +162,6 @@ public class Player extends User {
                 getPlayerSubscriptions().size(),
                 isUserActive());
     }
-
     public PlayerDetails viewDetail(){
         return new PlayerDetails(getUserId(),
                 getName(),

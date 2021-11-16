@@ -1,10 +1,9 @@
 package sportEvents.service.dto;
 
-import sportEvents.entity.enums.UserType;
 import lombok.Value;
+import sportEvents.entity.enums.UserType;
 
 import java.util.UUID;
-
 @Value
 public class OrganizerView {
     UUID userId;
