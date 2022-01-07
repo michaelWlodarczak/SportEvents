@@ -26,9 +26,9 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     List<Organizer> findByOrganizerName(String organizerName);
     @Query("select u.userType from User u where u.userId =  (?1) ")
     UserType getUserType(UUID userId);
-    @Query("from User u where u.userType = pl.justmedia.entity.enums.UserType.PLAYER")
+    @Query("from User u where u.userType = sportEvents.entity.enums.UserType.PLAYER")
     List<Player> getAllPlayers ();
-    @Query("from User u where u.userType = pl.justmedia.entity.enums.UserType.ORGANIZER")
+    @Query("from User u where u.userType = sportEvents.entity.enums.UserType.ORGANIZER")
     List<Organizer> getAllOrganizers ();
     Player findPlayerByUserId(UUID userId);
     @Query("select (count(u) > 0) from User u where upper(u.userEmail) = upper(?1) and u.userId <> (?2)")
